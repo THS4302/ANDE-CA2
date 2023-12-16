@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Thet Htar San 2235077-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#35BED1" /> <!-- Set the circular background color -->
+        </shape>
+    </item>
+    <!-- Image on top -->
+    <item
+        android:drawable="@drawable/favourite"
+        android:gravity="center"
+
+        />
+</layer-list>

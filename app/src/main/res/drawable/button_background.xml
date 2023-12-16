@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--Thet Htar San 2235077-->
+    <solid android:color="#35BED1" /> <!-- Set the background color -->
+    <corners android:radius="360dp" />
+</shape>
