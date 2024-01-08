@@ -1,6 +1,6 @@
 package com.example.tripsavvy_studio_2b03_2;
+//Farah 2228060
 
-//Thet Htar San 2235077
 
 
 import android.content.Intent;

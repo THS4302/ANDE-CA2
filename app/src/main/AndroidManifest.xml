@@ -26,6 +26,11 @@
                 android:value="" />
         </activity>
         <activity android:name=".MainActivity"> </activity>
+
+        <activity android:name=".Favorites" />
+        <activity android:name=".Profile" />
+        <activity android:name=".Store" />
+
     </application>
 
 </manifest>
