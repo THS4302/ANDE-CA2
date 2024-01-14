@@ -17,6 +17,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        DatabaseHandler databaseHandler = new DatabaseHandler();
+
+
+        // Call the method to add a place
+        databaseHandler.addPlace("Paris", 48.864716, 2.349014, "https://images.adsttc.com/media/images/5d44/14fa/284d/d1fd/3a00/003d/large_jpg/eiffel-tower-in-paris-151-medium.jpg?1564742900");
+
+        String placeId = "custom_" + System.currentTimeMillis();
+        //Place place = new Place(placeId,"Paris",48.864716,2.349014,"https://images.adsttc.com/media/images/5d44/14fa/284d/d1fd/3a00/003d/large_jpg/eiffel-tower-in-paris-151-medium.jpg?1564742900");
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
