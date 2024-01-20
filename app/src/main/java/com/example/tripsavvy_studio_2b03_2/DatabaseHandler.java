@@ -1,25 +1,197 @@
 package com.example.tripsavvy_studio_2b03_2;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DatabaseHandler {
+public class DatabaseHandler  extends SQLiteOpenHelper {
+    private static final int DATABASE_VERSION = 2;
+    private static final String DATABASE_NAME = "tripSavvyDB";
+    private static final String TABLE_PLACES = "places";
+    private static final String PLACE_ID = "id";
+    private static final String PLACE_NAME = "name";
 
-    private DatabaseReference databaseReference;
+    private static final String LATITUDE="lat";
+    private static final String LONGITUDE="long";
+    private static final String IMAGE_URL="image";
+    private static final String PLACE_CAT="cat";
+    private static final String COUNTRY="country";
 
-    public DatabaseHandler() {
-        // Initialize the reference to your database
-        this.databaseReference = FirebaseDatabase.getInstance().getReference().child("places");
+    private static final String DESCRIPTION="descp";
+    private static final String RATING="rate";
+
+
+
+
+
+
+    public DatabaseHandler(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        //3rd argument to be passed is CursorFactory instance
     }
 
-    public void addPlace(String name, double latitude, double longitude, String imageUrl) {
-        // Create a Place instance
-        String placeId = "custom_" + System.currentTimeMillis();
-        Place place = new Place(placeId, name, latitude, longitude, imageUrl);
-
-        // Add the place to the database
-        databaseReference.push().setValue(place);
+    // Creating Tables
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String CREATE_PLACES_TABLE = "CREATE TABLE " + TABLE_PLACES + "("
+                + PLACE_ID + " INTEGER PRIMARY KEY, "
+                + PLACE_NAME + " TEXT, "
+                + LATITUDE + " REAL, "
+                + LONGITUDE + " REAL, "
+                + IMAGE_URL + " TEXT,"
+                + PLACE_CAT + " TEXT,"
+                + COUNTRY + " TEXT,"
+                + DESCRIPTION + " TEXT,"
+                + RATING + " FLOAT);";
+        db.execSQL(CREATE_PLACES_TABLE);
     }
 
-    // Add other methods for database operations as needed
+
+
+
+
+
+
+
+    // Upgrading database
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Drop older table if existed
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLACES);
+
+        // Create tables again
+        onCreate(db);
+    }
+
+    // code to add the new contact
+    void addPlace(Place place) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(PLACE_NAME, place.getName());
+        values.put(LATITUDE, place.getLatitude());
+        values.put(LONGITUDE, place.getLongitude());
+        values.put(IMAGE_URL, place.getImageUrl());
+        values.put(PLACE_CAT, place.getPlacecat());
+        values.put(COUNTRY, place.getCountry());
+        values.put(DESCRIPTION, place.getDescription());
+        values.put(RATING, place.getRating());
+
+        // Inserting Row
+        db.insert(TABLE_PLACES, null, values);
+
+        // Close the database connection
+        db.close();
+    }
+
+
+
+    // code to get the single contact
+    Place getPlace(String placeId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_PLACES, new String[] {String.valueOf(PLACE_ID),
+                        PLACE_NAME, String.valueOf(LATITUDE), String.valueOf(LONGITUDE), IMAGE_URL, PLACE_CAT, COUNTRY, DESCRIPTION, RATING },
+                PLACE_ID + "=?",
+                new String[] { placeId }, null, null, null, null);
+
+        Place place = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            place = new Place();
+            place.setPlaceId(cursor.getInt(0));
+            place.setName(cursor.getString(1));
+            place.setLatitude(cursor.getDouble(2)); // Use getDouble for latitude
+            place.setLongitude(cursor.getDouble(3)); // Use getDouble for longitude
+            place.setImageUrl(cursor.getString(4));
+            place.setPlacecat(cursor.getString(5));
+            place.setDescription(cursor.getString(7));
+            place.setRating(cursor.getFloat(8));
+            // Add other fields as needed
+            cursor.close();
+        }
+
+        // close the database
+        db.close();
+
+        return place;
+    }
+
+
+
+    // code to get all contacts in a list view
+    public List<Place> getAllPlaces() {
+        List<Place> placeList = new ArrayList<>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_PLACES;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Place place = new Place();
+                place.setPlaceId(cursor.getInt(0)); // Assuming the first column is PLACE_ID
+                place.setName(cursor.getString(1)); // Assuming the second column is PLACE_NAME
+                place.setLatitude(cursor.getDouble(2)); // Assuming the third column is LATITUDE_COLUMN
+                place.setLongitude(cursor.getDouble(3)); // Assuming the fourth column is LONGITUDE_COLUMN
+                place.setImageUrl(cursor.getString(4)); // Assuming the fifth column is IMAGE_URL_COLUMN
+                place.setPlacecat(cursor.getString(5));
+                place.setCountry(cursor.getString(6));
+                place.setDescription(cursor.getString(7));
+                place.setRating(cursor.getFloat(8));
+                // Add other fields as needed
+
+                // Adding place to list
+                placeList.add(place);
+            } while (cursor.moveToNext());
+        }
+
+        // close the cursor and database
+        cursor.close();
+        db.close();
+
+        // return place list
+        return placeList;
+    }
+
+     /** public int updatePlace(Place place) {
+       SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, contact.getName());
+        values.put(KEY_PH_NO, contact.getPhoneNumber());
+
+        // updating row
+        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(contact.getID()) });
+    } **/
+
+    // Deleting single contact
+     public void deletePlace(int placeId) {
+         SQLiteDatabase db = this.getWritableDatabase();
+         db.delete(TABLE_PLACES, PLACE_ID + " = ?",
+                 new String[]{String.valueOf(placeId)});
+         db.close();
+     }
+
+
+    // Getting contacts Count
+  /**  public int getContactsCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+
+        // return count
+        return cursor.getCount();
+    } **/
 }
+
+
+
+

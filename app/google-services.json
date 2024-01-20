@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "375696904491",
-    "firebase_url": "https://tripsavvy24-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "tripsavvy24",
-    "storage_bucket": "tripsavvy24.appspot.com"
+    "project_number": "975551160450",
+    "firebase_url": "https://tripsavvy24-7e298-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "tripsavvy24-7e298",
+    "storage_bucket": "tripsavvy24-7e298.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:375696904491:android:5b7ab7cd287226ae1d756e",
+        "mobilesdk_app_id": "1:975551160450:android:7cb35371ec7b7a2795549b",
         "android_client_info": {
           "package_name": "com.example.tripsavvy_studio_2b03_2"
         }
@@ -16,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCkCgiinGhb_n_CgZgYJA2vlfbTt7I0gIU"
+          "current_key": "AIzaSyDhpUNzW3uUjdHtBWo32YzJ5Fu6nFfuLwg"
         }
       ],
       "services": {

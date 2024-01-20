@@ -11,7 +11,13 @@
       <entry key="SplashScreen">
         <State />
       </entry>
+      <entry key="TestFirebase">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="insertData">
         <State />
       </entry>
     </value>
