@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler  extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "tripSavvyDB";
     private static final String TABLE_PLACES = "places";
     private static final String PLACE_ID = "id";
@@ -159,37 +159,37 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         return placeList;
     }
 
-     /** public int updatePlace(Place place) {
-       SQLiteDatabase db = this.getWritableDatabase();
+    /** public int updatePlace(Place place) {
+     SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.getName());
-        values.put(KEY_PH_NO, contact.getPhoneNumber());
+     ContentValues values = new ContentValues();
+     values.put(KEY_NAME, contact.getName());
+     values.put(KEY_PH_NO, contact.getPhoneNumber());
 
-        // updating row
-        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
-                new String[] { String.valueOf(contact.getID()) });
-    } **/
+     // updating row
+     return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
+     new String[] { String.valueOf(contact.getID()) });
+     } **/
 
     // Deleting single contact
-     public void deletePlace(int placeId) {
-         SQLiteDatabase db = this.getWritableDatabase();
-         db.delete(TABLE_PLACES, PLACE_ID + " = ?",
-                 new String[]{String.valueOf(placeId)});
-         db.close();
-     }
+    public void deletePlace(int placeId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_PLACES, PLACE_ID + " = ?",
+                new String[]{String.valueOf(placeId)});
+        db.close();
+    }
 
 
     // Getting contacts Count
-  /**  public int getContactsCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
+    /**  public int getContactsCount() {
+     String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
+     SQLiteDatabase db = this.getReadableDatabase();
+     Cursor cursor = db.rawQuery(countQuery, null);
+     cursor.close();
 
-        // return count
-        return cursor.getCount();
-    } **/
+     // return count
+     return cursor.getCount();
+     } **/
 }
 
 
