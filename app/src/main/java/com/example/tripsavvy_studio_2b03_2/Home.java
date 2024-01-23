@@ -10,18 +10,18 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private LinearLayout scrollViewContent;
 
 
@@ -30,7 +30,8 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         DatabaseHandler db = new DatabaseHandler(this);
         setContentView(R.layout.activity_home);
-
+        SearchView searchView = findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(this);
         // Initialize scrollViewContent
         scrollViewContent = findViewById(R.id.scrollViewContent);
 
@@ -78,7 +79,7 @@ public class Home extends AppCompatActivity {
 
             // Find views in the inflated layout
             ImageView imageView = placeView.findViewById(R.id.imageView);
-            TextView textView = placeView.findViewById(R.id.textView);
+            TextView textView = placeView.findViewById(R.id.searchedTerm);
             ImageButton favoriteButton = placeView.findViewById(R.id.buttonFavorite);
 
             // Use Picasso to load the image from the URL
@@ -94,5 +95,25 @@ public class Home extends AppCompatActivity {
             // Add the inflated layout to the ScrollView
             scrollViewContent.addView(placeView);
         }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        // Handle search query submission (e.g., start SearchResultsActivity)
+        startSearchResultsActivity(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        // Handle search query changes if needed
+        return true;
+    }
+
+    private void startSearchResultsActivity(String query) {
+        // Start SearchResultsActivity and pass the search query
+        Intent intent = new Intent(Home.this, SearchResults.class);
+        intent.putExtra("query", query);
+        startActivity(intent);
     }
 }

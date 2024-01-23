@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDatabaseHandler  extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 6;
     private static final String DATABASE_NAME = "tripSavvyDB";
     private static final String TABLE_USERS = "users";
     private static final String USER_ID = "id";
@@ -89,9 +89,13 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
 
     // code to get the single contact
     User getUser(String userid) {
+        if (userid == null) {
+            return null;  // or handle the null case accordingly
+        }
+
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_USERS, new String[] {String.valueOf(USER_ID),
+        Cursor cursor = db.query(TABLE_USERS, new String[] {USER_ID,
                         FIRST_NAME,LAST_NAME,EMAIL, PASSWORD, PROFILE_URL},
                 USER_ID + "=?",
                 new String[] { userid }, null, null, null, null);
@@ -153,26 +157,56 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
         return userList;
     }
 
+    public int checkUserCreds(String email, String password){
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_USERS, new String[]{USER_ID},
+                EMAIL + "=? AND "+PASSWORD+"=?",
+                new String[]{email,password},null,null,null
+                );
+        int userId=-1;
+        if(cursor!=null){
+            int userIdColumnIndex = cursor.getColumnIndex(USER_ID);
+            if(cursor.moveToFirst()&& userIdColumnIndex!=-1){
+                userId=cursor.getInt(userIdColumnIndex);
+            }
 
-    /** public int updatePlace(Place place) {
-     SQLiteDatabase db = this.getWritableDatabase();
-
-     ContentValues values = new ContentValues();
-     values.put(KEY_NAME, contact.getName());
-     values.put(KEY_PH_NO, contact.getPhoneNumber());
-
-     // updating row
-     return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
-     new String[] { String.valueOf(contact.getID()) });
-     } **/
-
-    // Deleting single contact
-  /**  public void deletePlace(int placeId) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_PLACES, PLACE_ID + " = ?",
-                new String[]{String.valueOf(placeId)});
+            cursor.close();
+        }
         db.close();
-    } **/
+        return userId;
+
+
+    }
+
+
+    public int updateUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FIRST_NAME, user.getFirstname());
+        values.put(LAST_NAME, user.getLastname());
+        values.put(EMAIL, user.getEmail());
+        values.put(PASSWORD,user.getPassword());
+        values.put(PROFILE_URL, user.getProfileUrl());
+
+        // Updating Row
+        int rowsAffected = db.update(TABLE_USERS, values, USER_ID + "=?",
+                new String[]{String.valueOf(user.getUserId())});
+
+        // Close the database connection
+        db.close();
+
+        return rowsAffected;
+    }
+
+
+    // Deleting single user
+  public void deleteUser(String userid) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_USERS, USER_ID + " = ?",
+                new String[]{userid});
+        db.close();
+    }
 
 
     // Getting contacts Count

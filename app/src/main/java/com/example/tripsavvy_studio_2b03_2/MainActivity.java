@@ -24,11 +24,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     /**   DatabaseHandler db = new DatabaseHandler(this); **/
+        setContentView(R.layout.activity_main);
+      DatabaseHandler db = new DatabaseHandler(this);
 
         // Inserting Contacts
        // Log.d("Insert Data : ", "Inserting ..");
-      /** db.addPlace(new Place(1,"Paris", 48.85661400,2.35222190,"https://images.adsttc.com/media/images/5d44/14fa/284d/d1fd/3a00/003d/large_jpg/eiffel-tower-in-paris-151-medium.jpg?1564742900","Attraction","France","\n" +
+      db.addPlace(new Place(1,"Paris", 48.85661400,2.35222190,"https://images.adsttc.com/media/images/5d44/14fa/284d/d1fd/3a00/003d/large_jpg/eiffel-tower-in-paris-151-medium.jpg?1564742900","Attraction","France","\n" +
                 "Welcome to Paris, the City of Light, where history, culture, and romance converge. Iconic landmarks like the Eiffel Tower and Louvre Museum await, offering breathtaking views and artistic treasures. Stroll down the Champs-Élysées to the Arc de Triomphe, explore the bohemian charm of Montmartre, and cruise the Seine River for a romantic perspective. Indulge in Parisian cuisine, from pastries in charming cafes to Michelin-starred restaurants. Every cobblestone street tells" +
                 "a story, inviting you to immerse yourself in a city that has inspired dreamers for centuries." +
                 " Paris is an unforgettable journey into the heart of culture and sophistication.", 0));
@@ -64,11 +65,14 @@ public class MainActivity extends AppCompatActivity {
             String log = "Id: " + p.getPlaceId() + " ,Name: " + p.getName()+ "Cat"+p.getPlacecat();
             // Writing Contacts to log
             Log.d("Name: ", log);
-        } **/
+        }
 
-        UserDatabaseHandler udb= new UserDatabaseHandler(this);
+       UserDatabaseHandler udb= new UserDatabaseHandler(this);
 
-        udb.addUser(new User(1,"Ren","San","rensan02@gmail.com","abc","https://i.pinimg.com/originals/96/4f/3a/964f3a01c170d9306a7e091729f75935.jpg"));
+      //udb.addUser(new User(1,"Ren","San","rensan02@gmail.com","abc","https://i.pinimg.com/originals/96/4f/3a/964f3a01c170d9306a7e091729f75935.jpg"));
+     //udb.addUser(new User(2,"test","testing","test@test.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg"));
+    //udb.deleteUser("3");
+        //udb.deleteUser("4");
         Log.d("Reading: ", "Reading all users..");
         List<User> users = udb.getAllUsers();
 

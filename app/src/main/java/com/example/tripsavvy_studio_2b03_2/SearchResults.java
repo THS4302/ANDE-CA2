@@ -9,12 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class Favorites extends AppCompatActivity {
+public class SearchResults extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favourites);
+        setContentView(R.layout.activity_searched);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -23,15 +23,22 @@ public class Favorites extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_home:
-                        startActivity(new Intent(Favorites.this, Home.class));
+                        startActivity(new Intent(SearchResults.this, Home.class));
                         return true;
 
                     case R.id.action_favourites:
-                        // Navigate to the FavoritesActivity when Favorites item is selected
-                        // startActivity(new Intent(MainActivity.this, Favorites.class));
+                        startActivity(new Intent(SearchResults.this, Favorites.class));
                         return true;
 
-                    // Add cases for other bottom navigation items if needed
+                    case R.id.action_store:
+                        startActivity(new Intent(SearchResults.this, Store.class));
+                        return true;
+
+                    case R.id.action_profile:
+                        startActivity(new Intent(SearchResults.this, Profile.class));
+                        return true;
+
+
 
                     default:
                         return false;
@@ -39,7 +46,7 @@ public class Favorites extends AppCompatActivity {
             }
         });
 
-        // Set the default selected item programmatically
-        bottomNavigationView.setSelectedItemId(R.id.action_favourites);
+
+
     }
 }
