@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Inserting Contacts
        // Log.d("Insert Data : ", "Inserting ..");
-      db.addPlace(new Place(1,"Paris", 48.85661400,2.35222190,"https://images.adsttc.com/media/images/5d44/14fa/284d/d1fd/3a00/003d/large_jpg/eiffel-tower-in-paris-151-medium.jpg?1564742900","Attraction","France","\n" +
+      /**db.addPlace(new Place(1,"Paris", 48.85661400,2.35222190,"https://images.adsttc.com/media/images/5d44/14fa/284d/d1fd/3a00/003d/large_jpg/eiffel-tower-in-paris-151-medium.jpg?1564742900","Attraction","France","\n" +
                 "Welcome to Paris, the City of Light, where history, culture, and romance converge. Iconic landmarks like the Eiffel Tower and Louvre Museum await, offering breathtaking views and artistic treasures. Stroll down the Champs-Élysées to the Arc de Triomphe, explore the bohemian charm of Montmartre, and cruise the Seine River for a romantic perspective. Indulge in Parisian cuisine, from pastries in charming cafes to Michelin-starred restaurants. Every cobblestone street tells" +
                 "a story, inviting you to immerse yourself in a city that has inspired dreamers for centuries." +
                 " Paris is an unforgettable journey into the heart of culture and sophistication.", 0));
@@ -57,7 +57,12 @@ public class MainActivity extends AppCompatActivity {
                         "Explore the vibrant street markets, indulge in delectable Thai cuisine at beachfront restaurants, and witness the lively energy that permeates the area. Pattaya's nightlife is renowned, with a variety of bars, clubs, and entertainment options that cater to every taste.\n" +
                         "\n" +
                         "For those seeking cultural experiences, nearby attractions like the Sanctuary of Truth showcase traditional Thai architecture and craftsmanship. Pattaya seamlessly blends the excitement of a beach resort with the charm of Thai hospitality, making it a versatile destination for travelers seeking both relaxation and entertainment.",0));
-
+**/
+      db.deletePlace(6);
+        db.deletePlace(7);
+        db.deletePlace(8);
+        db.deletePlace(9);
+        db.deletePlace(10);
         Log.d("Reading: ", "Reading all contacts..");
         List<Place> places = db.getAllPlaces();
 
@@ -77,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
         List<User> users = udb.getAllUsers();
 
         for (User u : users) {
-            String log = "Id: " + u.getUserId() + " ,Name: " + u.getFirstname();
+            String log = "Id: " + u.getUserId() + " ,Name: " + u.getFirstname()+ u.getLastname()+u.getEmail()
+                    +u.getPassword()+"  profile:"+u.getProfileUrl();
             // Writing Contacts to log
             Log.d("Name: ", log);
         }

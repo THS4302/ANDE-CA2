@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 public class Profile extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -33,14 +35,14 @@ public class Profile extends AppCompatActivity {
             // Now you can set the user details in your input boxes
             EditText editFname = findViewById(R.id.editFname);
             EditText editLname = findViewById(R.id.editLname);
-            EditText editEmail = findViewById(R.id.editEmail);
+            TextView email = findViewById(R.id.editEmail);
             EditText editnewPass=findViewById(R.id.newPassword);
             EditText editconPass=findViewById(R.id.confirmPassword);
 // Set values in input boxes
             editFname.setText(user.getFirstname());
             editLname.setText(user.getLastname());
-            editEmail.setText(user.getEmail());
-            editnewPass.setText(user.getPassword());
+            email.setText(user.getEmail());
+            //editnewPass.setText(user.getPassword());
 
 // Check if new password fields match
             if (!editnewPass.getText().toString().equals(editconPass.getText().toString())) {
@@ -83,7 +85,9 @@ public class Profile extends AppCompatActivity {
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
+
     @Override
+
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -94,6 +98,13 @@ public class Profile extends AppCompatActivity {
             // Example using Picasso:
             ImageButton profileImageButton = findViewById(R.id.profileImage);
             Picasso.get().load(imageUri).into(profileImageButton);
+            UserDatabaseHandler udb = new UserDatabaseHandler(Profile.this);
+            Intent intent = getIntent();
+            int userId = intent.getIntExtra("userId", -1);
+
+            User user = udb.getUser(String.valueOf(userId));
+            // Save the new image URI to the user object
+            user.setProfileUrl(imageUri.toString());
         }
     }
 
@@ -103,10 +114,13 @@ public class Profile extends AppCompatActivity {
         String newLastName = ((EditText) findViewById(R.id.editLname)).getText().toString();
         String newEmail = ((EditText) findViewById(R.id.editEmail)).getText().toString();
         String newPassword = ((EditText) findViewById(R.id.newPassword)).getText().toString();
-        String newProfileUrl = ""; // You need to get the new image URI here
+        String newProfileUrl = user.getProfileUrl();
 
         // Create a new User object with the updated values
         User updatedUser = new User(user.getUserId(), newFirstName, newLastName, newEmail, newPassword, newProfileUrl);
+
+        // Create a new User object with the updated values
+        //User updatedUser = new User(user.getUserId(), newFirstName, newLastName, newEmail, newPassword, newProfileUrl);
 
         // Update the user profile in the database
         int rowsAffected = udb.updateUser(updatedUser);
