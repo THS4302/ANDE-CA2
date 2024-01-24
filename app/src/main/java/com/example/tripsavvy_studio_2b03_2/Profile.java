@@ -36,17 +36,17 @@ public class Profile extends AppCompatActivity {
             EditText editEmail = findViewById(R.id.editEmail);
             EditText editnewPass=findViewById(R.id.newPassword);
             EditText editconPass=findViewById(R.id.confirmPassword);
-
-            // Set values in input boxes
+// Set values in input boxes
             editFname.setText(user.getFirstname());
             editLname.setText(user.getLastname());
             editEmail.setText(user.getEmail());
+            editnewPass.setText(user.getPassword());
 
+// Check if new password fields match
             if (!editnewPass.getText().toString().equals(editconPass.getText().toString())) {
                 Toast.makeText(this, "New Password and Confirm New Password don't match", Toast.LENGTH_SHORT).show();
             }
 
-            editnewPass.setText(user.getPassword());
 
             TextView name = findViewById(R.id.name);
             name.setText(user.getFirstname());

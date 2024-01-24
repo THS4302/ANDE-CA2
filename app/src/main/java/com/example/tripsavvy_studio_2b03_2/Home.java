@@ -10,12 +10,13 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
+
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -30,6 +31,8 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
         super.onCreate(savedInstanceState);
         DatabaseHandler db = new DatabaseHandler(this);
         setContentView(R.layout.activity_home);
+        Intent intent = getIntent();
+        int userId = intent.getIntExtra("userId", -1);
         SearchView searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(this);
         // Initialize scrollViewContent
@@ -50,9 +53,14 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
                         startActivity(new Intent(Home.this, Favorites.class));
                         return true;
 
+
                     case R.id.action_profile:
-                        startActivity(new Intent(Home.this, Profile.class));
+                        Intent intentp = new Intent(Home.this, Profile.class);
+                        intentp.putExtra("userId", userId);
+                        startActivity(intentp);
+                        finish();
                         return true;
+
 
                     case R.id.action_store:
                         startActivity(new Intent(Home.this, Store.class));
