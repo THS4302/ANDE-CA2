@@ -87,8 +87,20 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
 
             // Find views in the inflated layout
             ImageView imageView = placeView.findViewById(R.id.imageView);
-            TextView textView = placeView.findViewById(R.id.searchedTerm);
-            ImageButton favoriteButton = placeView.findViewById(R.id.buttonFavorite);
+            TextView textView = placeView.findViewById(R.id.placeName);
+            ImageButton favoriteButton = placeView.findViewById(R.id.buttonFavorite2);
+            favoriteButton.setTag(place.getPlaceId());
+
+            boolean isFavorite = isPlaceFavorite(place.getPlaceId());
+            favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
+
+            favoriteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Toggle the favorite state when the button is clicked
+                    toggleFavorite(place.getPlaceId(), favoriteButton);
+                }
+            });
 
             // Use Picasso to load the image from the URL
             Picasso.get().load(place.getImageUrl()).into(imageView);// Replace with your logic for setting image resource
@@ -96,9 +108,7 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
 
 
 
-            // Set a unique tag for the favorite button to identify the corresponding place
-            //favoriteButton.setTag(place.getPlaceId());
-            //favoriteButton.setOnClickListener(this);
+
 
             // Add the inflated layout to the ScrollView
             scrollViewContent.addView(placeView);
@@ -123,5 +133,29 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
         Intent intent = new Intent(Home.this, SearchResults.class);
         intent.putExtra("query", query);
         startActivity(intent);
+    }
+    private boolean isPlaceFavorite(int placeId) {
+        // Retrieve the current state of the favorite for the given placeId
+        return getSharedPreferences("Favorites", MODE_PRIVATE)
+                .getBoolean(getFavoriteKey(placeId), false);
+    }
+
+    private void toggleFavorite(int placeId, ImageButton favoriteButton) {
+        // Toggle the favorite state
+        boolean isFavorite = !isPlaceFavorite(placeId);
+
+        // Update the button state
+        favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
+
+        // Save the updated state to SharedPreferences
+        getSharedPreferences("Favorites", MODE_PRIVATE)
+                .edit()
+                .putBoolean(getFavoriteKey(placeId), isFavorite)
+                .apply();
+    }
+
+    private String getFavoriteKey(int placeId) {
+        // Generate a unique key for storing the favorite state of a place
+        return "favorite_" + placeId;
     }
 }

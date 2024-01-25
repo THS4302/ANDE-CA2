@@ -19,6 +19,7 @@ public class Login extends AppCompatActivity {
         loginEmail  = findViewById(R.id.loginEmail);
         loginPassword = findViewById(R.id.loginPassword);
         Button loginButton = findViewById(R.id.loginButton);
+        Button registerNav= findViewById(R.id.signup);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +44,16 @@ public class Login extends AppCompatActivity {
                     // Invalid credentials, show an error message
                     Toast.makeText(Login.this, "Invalid email or password", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        registerNav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get entered email and password
+
+                Intent intent = new Intent(Login.this, Register.class);
+                startActivity(intent);
             }
         });
 

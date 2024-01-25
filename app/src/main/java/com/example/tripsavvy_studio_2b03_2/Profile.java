@@ -25,7 +25,7 @@ public class Profile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_profile2);
         UserDatabaseHandler udb = new UserDatabaseHandler(Profile.this);
         Intent intent = getIntent();
         int userId = intent.getIntExtra("userId", -1);
@@ -48,6 +48,8 @@ public class Profile extends AppCompatActivity {
             if (!editnewPass.getText().toString().equals(editconPass.getText().toString())) {
                 Toast.makeText(this, "New Password and Confirm New Password don't match", Toast.LENGTH_SHORT).show();
             }
+
+
 
 
             TextView name = findViewById(R.id.name);
@@ -77,6 +79,17 @@ public class Profile extends AppCompatActivity {
             // Handle the case where user details are not available
             Toast.makeText(this, "User details not found", Toast.LENGTH_SHORT).show();
         }
+
+        Button logoutButton = findViewById(R.id.logout);
+
+        // Set an OnClickListener for the logout button
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call the logout method or perform logout actions here
+                logout();
+            }
+        });
     }
 
     private void openImagePicker() {
@@ -112,15 +125,19 @@ public class Profile extends AppCompatActivity {
         // Get the updated values from the input fields
         String newFirstName = ((EditText) findViewById(R.id.editFname)).getText().toString();
         String newLastName = ((EditText) findViewById(R.id.editLname)).getText().toString();
-        String newEmail = ((EditText) findViewById(R.id.editEmail)).getText().toString();
+        String newEmail = ((TextView) findViewById(R.id.editEmail)).getText().toString();
         String newPassword = ((EditText) findViewById(R.id.newPassword)).getText().toString();
+
+        // Check if the new password field is empty
+        if (newPassword.isEmpty()) {
+            // Retain the existing password
+            newPassword = user.getPassword();
+        }
+
         String newProfileUrl = user.getProfileUrl();
 
         // Create a new User object with the updated values
         User updatedUser = new User(user.getUserId(), newFirstName, newLastName, newEmail, newPassword, newProfileUrl);
-
-        // Create a new User object with the updated values
-        //User updatedUser = new User(user.getUserId(), newFirstName, newLastName, newEmail, newPassword, newProfileUrl);
 
         // Update the user profile in the database
         int rowsAffected = udb.updateUser(updatedUser);
@@ -133,5 +150,24 @@ public class Profile extends AppCompatActivity {
             Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void logout() {
+        // Implement the logout functionality
+        // For example, you might clear user session/credentials and navigate to the login screen
+
+        // Clear any session or authentication data (example, you may use SharedPreferences)
+        // SharedPreferences preferences = getSharedPreferences("your_prefs_name", MODE_PRIVATE);
+        // SharedPreferences.Editor editor = preferences.edit();
+        // editor.clear();
+        // editor.apply();
+
+        // Navigate to the login screen (replace LoginActivity.class with your login activity)
+        Intent intent = new Intent(Profile.this, Login.class);
+        // Clear the back stack to prevent going back to the profile screen after logging out
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish(); // Finish the current activity
+    }
+
 }
 
