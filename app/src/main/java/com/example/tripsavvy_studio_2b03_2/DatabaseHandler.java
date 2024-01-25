@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler  extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
+  
     private static final String DATABASE_NAME = "tripSavvyDB";
     private static final String TABLE_PLACES = "places";
     private static final String PLACE_ID = "id";
