@@ -31,6 +31,9 @@
         <activity android:name=".Register"></activity>
 
         <activity android:name=".Favorites" />
+        <activity android:name=".SearchResults" />
+        <activity android:name=".FilterOptions" />
+
         <activity android:name=".Profile" />
         <activity android:name=".Store" />
         <activity android:name=".DatabaseHandler" />

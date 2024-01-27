@@ -43,7 +43,7 @@
         app:layout_constraintHorizontal_bias="0.062"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headerView"
-        app:layout_constraintVertical_bias="0.028" />
+        app:layout_constraintVertical_bias="0.062" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -61,10 +61,14 @@
     <ScrollView
 
         android:id="@+id/scrollView2"
-        android:layout_width="427dp"
-        android:layout_height="475dp"
-        tools:layout_editor_absoluteX="-6dp"
-        tools:layout_editor_absoluteY="200dp">
+        android:layout_width="406dp"
+        android:layout_height="456dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.796">
 
 
         <!-- Layout for vertical scrolling -->

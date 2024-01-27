@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/headerView"
+        android:layout_width="412dp"
+        android:layout_height="130dp"
+        android:background="@drawable/gradient_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.003" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/wendy_one"
+        android:text="TripSavvy"
+        android:textColor="@color/white"
+
+        android:textSize="150px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/headerView"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.053" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="104dp"
+        android:layout_height="60dp"
+        android:text="Filter"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.222" />
+
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="387dp"
+        android:layout_height="429dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.719">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/nearest"
+                android:layout_width="328dp"
+                android:layout_height="72dp"
+                android:layout_weight="1"
+                android:text="Nearest"
+                app:cornerRadius="30dp"
+                android:backgroundTint="#a6a6a6"/>
+
+            <Button
+                android:id="@+id/attraction"
+                android:layout_width="328dp"
+                android:layout_height="72dp"
+                android:layout_weight="1"
+                android:text="Attraction"
+                app:cornerRadius="30dp"
+                android:backgroundTint="#a6a6a6"/>
+
+            <Button
+                android:id="@+id/hilly"
+                android:layout_width="328dp"
+                android:layout_height="72dp"
+                android:layout_weight="1"
+                android:text="Hilly"
+                app:cornerRadius="30dp"
+                android:backgroundTint="#a6a6a6"/>
+
+            <Button
+                android:id="@+id/island"
+                android:layout_width="328dp"
+                android:layout_height="72dp"
+                android:layout_weight="1"
+                android:text="Island"
+                app:cornerRadius="30dp"
+                android:backgroundTint="#a6a6a6"/>
+
+            <Button
+                android:id="@+id/countryside"
+                android:layout_width="328dp"
+                android:layout_height="72dp"
+                android:layout_weight="1"
+                android:text="Countryside"
+                app:cornerRadius="30dp"
+                android:backgroundTint="#a6a6a6"
+                />
+
+            <Button
+                android:id="@+id/beach"
+                android:layout_width="328dp"
+                android:layout_height="72dp"
+                android:layout_weight="1"
+                android:text="Beach"
+                app:cornerRadius="30dp"
+                android:backgroundTint="#a6a6a6"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/nextbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.898"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96" />
+
+    <Button
+        android:id="@+id/backbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.101"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

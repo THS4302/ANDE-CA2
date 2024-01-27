@@ -20,10 +20,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class Home extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private LinearLayout scrollViewContent;
+    private int userId;
 
 
     @Override
@@ -49,8 +51,11 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
                         return true;
 
                     case R.id.action_favourites:
+                        Intent intentf = new Intent(Home.this, Favorites.class);
+                        intentf.putExtra("userId", userId);
+                        startActivity(intentf);
                         // Navigate to the FavoritesActivity when Favorites item is selected
-                        startActivity(new Intent(Home.this, Favorites.class));
+                        //startActivity(new Intent(Home.this, Favorites.class));
                         return true;
 
 
@@ -58,7 +63,7 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
                         Intent intentp = new Intent(Home.this, Profile.class);
                         intentp.putExtra("userId", userId);
                         startActivity(intentp);
-                        finish();
+
                         return true;
 
 
@@ -129,9 +134,14 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
     }
 
     private void startSearchResultsActivity(String query) {
-        // Start SearchResultsActivity and pass the search query
+        // Get the search results based on the query
+        DatabaseHandler db = new DatabaseHandler(this);
+        List<Place> searchResults = db.searchPlaces(query,null);
+
+        // Start SearchResultsActivity and pass the search results
         Intent intent = new Intent(Home.this, SearchResults.class);
-        intent.putExtra("query", query);
+        intent.putExtra("userId", userId);
+        intent.putExtra("searchResults", (Serializable) searchResults); // Make sure Place implements Serializable
         startActivity(intent);
     }
     private boolean isPlaceFavorite(int placeId) {

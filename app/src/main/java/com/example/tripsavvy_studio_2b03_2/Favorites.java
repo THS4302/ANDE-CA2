@@ -26,6 +26,8 @@ public class Favorites extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourites);
+        Intent intent = getIntent();
+        int userId = intent.getIntExtra("userId", -1);
         favViewContent = findViewById(R.id.favViewContent);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -42,6 +44,13 @@ public class Favorites extends AppCompatActivity {
                         // startActivity(new Intent(MainActivity.this, Favorites.class));
                         List<Place> favoritedPlaces = getFavoritedPlaces();
                         populateFavorites(favoritedPlaces);
+                        return true;
+
+                    case R.id.action_profile:
+                        Intent intentp = new Intent(Favorites.this, Profile.class);
+                        intentp.putExtra("userId", userId);
+                        startActivity(intentp);
+                        finish();
                         return true;
 
                     // Add cases for other bottom navigation items if needed

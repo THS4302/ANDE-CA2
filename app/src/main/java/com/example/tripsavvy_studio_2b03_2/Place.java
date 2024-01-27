@@ -1,7 +1,9 @@
 package com.example.tripsavvy_studio_2b03_2;
 
 
-public class Place {
+import java.io.Serializable;
+
+public class Place implements Serializable {
     private int placeId;
     private String name;
     private double latitude;

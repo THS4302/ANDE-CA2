@@ -191,6 +191,131 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
      // return count
      return cursor.getCount();
      } **/
+
+
+    /** public List<Place> searchPlaces(String query) {
+        List<Place> searchResults = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define the columns you want to retrieve
+        String[] columns = {PLACE_ID, PLACE_NAME, LATITUDE, LONGITUDE, IMAGE_URL, PLACE_CAT, COUNTRY, DESCRIPTION, RATING};
+
+        // Specify the WHERE clause for the query
+        String selection = PLACE_NAME + " LIKE ? OR " +
+                COUNTRY + " LIKE ?";
+        String[] selectionArgs = {"%" + query + "%", "%" + query + "%"};
+
+
+
+
+
+        // Execute the query
+        Cursor cursor = db.query(TABLE_PLACES, columns, selection, selectionArgs, null, null, null);
+
+        // Iterate through the cursor and add places to the search results
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                Place place = new Place();
+                place.setPlaceId(cursor.getInt(0));
+                place.setName(cursor.getString(1));
+                place.setLatitude(cursor.getDouble(2));
+                place.setLongitude(cursor.getDouble(3));
+                place.setImageUrl(cursor.getString(4));
+                place.setPlacecat(cursor.getString(5));
+                place.setCountry(cursor.getString(6));
+                place.setDescription(cursor.getString(7));
+                place.setRating(cursor.getFloat(8));
+                // Add other fields as needed
+
+                // Adding place to search results
+                searchResults.add(place);
+            } while (cursor.moveToNext());
+
+            // Close the cursor
+            cursor.close();
+        }
+
+        // Close the database connection
+        db.close();
+
+        return searchResults;
+    } **/
+
+    public List<Place> searchPlaces(String query, List<String> categories) {
+        List<Place> searchResults = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Define the columns you want to retrieve
+        String[] columns = {PLACE_ID, PLACE_NAME, LATITUDE, LONGITUDE, IMAGE_URL, PLACE_CAT, COUNTRY, DESCRIPTION, RATING};
+
+        // Specify the WHERE clause for the query with multiple conditions
+        StringBuilder selection = new StringBuilder();
+        List<String> selectionArgsList = new ArrayList<>();
+
+        // Add conditions for place name or country
+        if (query != null && !query.isEmpty()) {
+            selection.append("(")
+                    .append(PLACE_NAME).append(" LIKE ? OR ")
+                    .append(COUNTRY).append(" LIKE ?")
+                    .append(") AND ");
+
+            selectionArgsList.add("%" + query + "%");
+            selectionArgsList.add("%" + query + "%");
+        }
+
+        // Add conditions for categories
+        if (categories != null && !categories.isEmpty()) {
+            selection.append("(");
+            for (String category : categories) {
+                selection.append(PLACE_CAT).append(" = ? OR ");
+                selectionArgsList.add(category);
+            }
+            selection.setLength(selection.length() - 4); // Remove the trailing " OR "
+            selection.append(") AND ");
+        }
+
+        // Remove the trailing " AND "
+        if (selection.length() >= 5) {
+            selection.setLength(selection.length() - 5);
+        }
+
+        // Convert the list to an array
+        String[] selectionArgs = selectionArgsList.toArray(new String[0]);
+
+        // Execute the query
+        Cursor cursor = db.query(TABLE_PLACES, columns, selection.toString(), selectionArgs, null, null, null);
+
+        // Iterate through the cursor and add places to the search results
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                Place place = new Place();
+                place.setPlaceId(cursor.getInt(0));
+                place.setName(cursor.getString(1));
+                place.setLatitude(cursor.getDouble(2));
+                place.setLongitude(cursor.getDouble(3));
+                place.setImageUrl(cursor.getString(4));
+                place.setPlacecat(cursor.getString(5));
+                place.setCountry(cursor.getString(6));
+                place.setDescription(cursor.getString(7));
+                place.setRating(cursor.getFloat(8));
+                // Add other fields as needed
+
+                // Adding place to search results
+                searchResults.add(place);
+            } while (cursor.moveToNext());
+
+            // Close the cursor
+            cursor.close();
+        }
+
+        // Close the database connection
+        db.close();
+
+        return searchResults;
+    }
+
+
+
 }
 
 
