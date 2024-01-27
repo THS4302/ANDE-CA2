@@ -45,8 +45,9 @@
         app:layout_constraintVertical_bias="0.157" />
 
     <ScrollView
-        android:layout_width="408dp"
-        android:layout_height="483dp"
+        android:id="@+id/scrollView4"
+        android:layout_width="410dp"
+        android:layout_height="446dp"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -93,6 +94,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.212"
         app:srcCompat="@drawable/filterimg" />
+
+    <TextView
+        android:id="@+id/filterCats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filters: "
+        android:textSize="50px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.019"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.275" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -266,11 +266,13 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
         // Add conditions for categories
         if (categories != null && !categories.isEmpty()) {
             selection.append("(");
-            for (String category : categories) {
-                selection.append(PLACE_CAT).append(" = ? OR ");
-                selectionArgsList.add(category);
+            for (int i = 0; i < categories.size(); i++) {
+                selection.append(PLACE_CAT).append(" = ?");
+                selectionArgsList.add(categories.get(i));
+                if (i < categories.size() - 1) {
+                    selection.append(" OR ");
+                }
             }
-            selection.setLength(selection.length() - 4); // Remove the trailing " OR "
             selection.append(") AND ");
         }
 
@@ -313,7 +315,6 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
 
         return searchResults;
     }
-
 
 
 }

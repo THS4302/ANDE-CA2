@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -80,7 +81,10 @@ public class FilterOptions extends AppCompatActivity {
 
                 Intent resultIntent = new Intent();
                 resultIntent.putStringArrayListExtra("selectedCategories", (ArrayList<String>) selectedCategories);
+                Log.d("In Filter Options", "Filter options: " + selectedCategories.toString());
+
                 setResult(RESULT_OK, resultIntent);
+
                 finish();
             }
         });
@@ -119,6 +123,13 @@ public class FilterOptions extends AppCompatActivity {
 
             // Toggle the selection state by toggling the tag value (true to false or false to true)
             clickedButton.setTag(!isButtonSelected);
+            if (isButtonSelected) {
+                // If the button is being unselected, remove the category from the list
+                selectedCategories.remove(category);
+            } else {
+                // If the button is being selected, add the category to the list
+                selectedCategories.add(category);
+            }
         }
     }
 

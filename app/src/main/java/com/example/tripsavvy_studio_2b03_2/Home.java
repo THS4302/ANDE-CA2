@@ -136,14 +136,18 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
     private void startSearchResultsActivity(String query) {
         // Get the search results based on the query
         DatabaseHandler db = new DatabaseHandler(this);
-        List<Place> searchResults = db.searchPlaces(query,null);
+        List<Place> searchResults = db.searchPlaces(query, null);
+        Intent intents = getIntent();
+        int userId = intents.getIntExtra("userId", -1);
 
-        // Start SearchResultsActivity and pass the search results
+        // Start SearchResultsActivity and pass the search results and query
         Intent intent = new Intent(Home.this, SearchResults.class);
         intent.putExtra("userId", userId);
         intent.putExtra("searchResults", (Serializable) searchResults); // Make sure Place implements Serializable
+        intent.putExtra("searchQuery", query);
         startActivity(intent);
     }
+
     private boolean isPlaceFavorite(int placeId) {
         // Retrieve the current state of the favorite for the given placeId
         return getSharedPreferences("Favorites", MODE_PRIVATE)
