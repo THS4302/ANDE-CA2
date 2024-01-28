@@ -68,15 +68,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <Button
-                android:id="@+id/nearest"
-                android:layout_width="328dp"
-                android:layout_height="72dp"
-                android:layout_weight="1"
-                android:text="Nearest"
-                app:cornerRadius="30dp"
-                android:backgroundTint="#a6a6a6"/>
-
-            <Button
                 android:id="@+id/attraction"
                 android:layout_width="328dp"
                 android:layout_height="72dp"

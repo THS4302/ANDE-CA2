@@ -3,6 +3,7 @@ package com.example.tripsavvy_studio_2b03_2;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,8 +58,7 @@ public class Profile extends AppCompatActivity {
             ImageButton profileImageButton = findViewById(R.id.profileImage);
             Picasso.get().load(user.getProfileUrl()).into(profileImageButton);
 
-            // ImageButton click event for changing the profile image
-            //ImageButton profileImageButton = findViewById(R.id.profileImage);
+
             profileImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -71,7 +71,8 @@ public class Profile extends AppCompatActivity {
             updateProfileButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Update user profile when the button is clicked
+
+                    // Update the user profile when the button is clicked
                     updateUserProfile(user, udb);
                 }
             });
@@ -118,6 +119,8 @@ public class Profile extends AppCompatActivity {
             User user = udb.getUser(String.valueOf(userId));
             // Save the new image URI to the user object
             user.setProfileUrl(imageUri.toString());
+            String newimg =imageUri.toString();
+            Log.d("set","setImgUri"+newimg);
         }
     }
 
@@ -134,7 +137,9 @@ public class Profile extends AppCompatActivity {
             newPassword = user.getPassword();
         }
 
+        // Get the existing image URL
         String newProfileUrl = user.getProfileUrl();
+        Log.d("profileurl","newprofileurl..."+newProfileUrl);
 
         // Create a new User object with the updated values
         User updatedUser = new User(user.getUserId(), newFirstName, newLastName, newEmail, newPassword, newProfileUrl);
@@ -145,21 +150,23 @@ public class Profile extends AppCompatActivity {
         if (rowsAffected > 0) {
             // Database update successful
             Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+
+            // Reload the user from the database after update
+            User updatedUserFromDB = udb.getUser(String.valueOf(user.getUserId()));
+
+            // Update the displayed image using Picasso
+            ImageButton profileImageButton = findViewById(R.id.profileImage);
+
+            Picasso.get().load(updatedUserFromDB.getProfileUrl()).into(profileImageButton);
         } else {
             // Database update failed
             Toast.makeText(this, "Failed to update profile", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void logout() {
-        // Implement the logout functionality
-        // For example, you might clear user session/credentials and navigate to the login screen
 
-        // Clear any session or authentication data (example, you may use SharedPreferences)
-        // SharedPreferences preferences = getSharedPreferences("your_prefs_name", MODE_PRIVATE);
-        // SharedPreferences.Editor editor = preferences.edit();
-        // editor.clear();
-        // editor.apply();
+    private void logout() {
+
 
         // Navigate to the login screen (replace LoginActivity.class with your login activity)
         Intent intent = new Intent(Profile.this, Login.class);

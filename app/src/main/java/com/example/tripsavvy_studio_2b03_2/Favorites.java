@@ -1,7 +1,9 @@
 package com.example.tripsavvy_studio_2b03_2;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +23,7 @@ import java.util.List;
 
 public class Favorites extends AppCompatActivity {
     private LinearLayout favViewContent;
+    private LocationTracker locationTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,8 @@ public class Favorites extends AppCompatActivity {
         setContentView(R.layout.activity_favourites);
         Intent intent = getIntent();
         int userId = intent.getIntExtra("userId", -1);
+        double userLat = intent.getDoubleExtra("userLat", 0.0);
+        double userLng = intent.getDoubleExtra("userLng", 0.0);
         favViewContent = findViewById(R.id.favViewContent);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -60,6 +65,7 @@ public class Favorites extends AppCompatActivity {
                 }
             }
         });
+        initialize();
 
         // Set the default selected item programmatically
         bottomNavigationView.setSelectedItemId(R.id.action_favourites);
@@ -76,6 +82,10 @@ public class Favorites extends AppCompatActivity {
             }
         }
         return favoritedPlaces;
+    }
+    private void initialize() {
+        // Create the LocationTracker instance
+        locationTracker = new LocationTracker(this);
     }
 
     private void populateFavorites(List<Place> favoritedPlaces) {
@@ -107,8 +117,16 @@ public class Favorites extends AppCompatActivity {
             // Use Picasso to load the image from the URL
             Picasso.get().load(place.getImageUrl()).into(imageView);
 
-            // Set the place name
-            textView.setText(place.getName() + "\n📍" + "distance" + " km\nDetails");
+            Intent intent = getIntent();
+
+            double userLat = intent.getDoubleExtra("userLat", 0.0);
+            double userLng = intent.getDoubleExtra("userLng", 0.0);
+            double placeLat = place.getLatitude();
+            double placeLng = place.getLongitude();
+            double distance = locationTracker.calculateDistance(userLat,userLng, placeLat, placeLng);
+            Log.d("userlocation:", "userlocation:" + locationTracker.getLatitude() + "...long.." + locationTracker.getLongitude());
+            Picasso.get().load(place.getImageUrl()).into(imageView);
+            textView.setText(place.getName() + "\n📍" + distance + " km\nDetails");
 
             // Add the inflated layout to the favorites container
             favViewContent.addView(placeView);
@@ -137,5 +155,6 @@ public class Favorites extends AppCompatActivity {
                 .putBoolean(getFavoriteKey(placeId), isFavorite)
                 .apply();
     }
+
 
 }

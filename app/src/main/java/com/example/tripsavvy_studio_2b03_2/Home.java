@@ -1,9 +1,10 @@
 package com.example.tripsavvy_studio_2b03_2;
 
-
-//Thet Htar San 2235077
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,21 +13,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-import com.squareup.picasso.Picasso;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-
+import androidx.core.app.ActivityCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
+import com.squareup.picasso.Picasso;
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Home extends AppCompatActivity implements SearchView.OnQueryTextListener {
     private LinearLayout scrollViewContent;
     private int userId;
-
+    private LocationTracker locationTracker;
+    private static final int REQUEST_CODE_PERMISSION = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +36,21 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
         DatabaseHandler db = new DatabaseHandler(this);
         setContentView(R.layout.activity_home);
         Intent intent = getIntent();
-        int userId = intent.getIntExtra("userId", -1);
+        userId = intent.getIntExtra("userId", -1);
         SearchView searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(this);
         // Initialize scrollViewContent
         scrollViewContent = findViewById(R.id.scrollViewContent);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_PERMISSION);
+        } else {
+            // Permissions are already granted
+            initialize();
+        }
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -53,19 +62,16 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
                     case R.id.action_favourites:
                         Intent intentf = new Intent(Home.this, Favorites.class);
                         intentf.putExtra("userId", userId);
+                        intentf.putExtra("userLat", locationTracker.getLatitude());
+                        intentf.putExtra("userLng", locationTracker.getLongitude());
                         startActivity(intentf);
-                        // Navigate to the FavoritesActivity when Favorites item is selected
-                        //startActivity(new Intent(Home.this, Favorites.class));
                         return true;
-
 
                     case R.id.action_profile:
                         Intent intentp = new Intent(Home.this, Profile.class);
                         intentp.putExtra("userId", userId);
                         startActivity(intentp);
-
                         return true;
-
 
                     case R.id.action_store:
                         startActivity(new Intent(Home.this, Store.class));
@@ -79,18 +85,37 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
 
         // Set the default selected item programmatically
         bottomNavigationView.setSelectedItemId(R.id.action_home);
+
         populateScrollView(db.getAllPlaces());
     }
 
+    private void initialize() {
+        // Create the LocationTracker instance
+        locationTracker = new LocationTracker(this);
+    }
 
     private void populateScrollView(List<Place> places) {
         LayoutInflater inflater = LayoutInflater.from(this);
 
+        // Sort places based on distance in ascending order
+        Collections.sort(places, new Comparator<Place>() {
+            @Override
+            public int compare(Place place1, Place place2) {
+                double distance1 = locationTracker.calculateDistance(locationTracker.getLatitude(), locationTracker.getLongitude(), place1.getLatitude(), place1.getLongitude());
+                double distance2 = locationTracker.calculateDistance(locationTracker.getLatitude(), locationTracker.getLongitude(), place2.getLatitude(), place2.getLongitude());
+
+                // Compare distances
+                return Double.compare(distance1, distance2);
+            }
+        });
+
+        // Clear existing views in the scrollViewContent
+        scrollViewContent.removeAllViews();
+
+        // Populate the scroll view with sorted places
         for (Place place : places) {
-            // Inflate the layout for each place
             View placeView = inflater.inflate(R.layout.place_item, scrollViewContent, false);
 
-            // Find views in the inflated layout
             ImageView imageView = placeView.findViewById(R.id.imageView);
             TextView textView = placeView.findViewById(R.id.placeName);
             ImageButton favoriteButton = placeView.findViewById(R.id.buttonFavorite2);
@@ -102,27 +127,26 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
             favoriteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Toggle the favorite state when the button is clicked
                     toggleFavorite(place.getPlaceId(), favoriteButton);
                 }
             });
 
-            // Use Picasso to load the image from the URL
-            Picasso.get().load(place.getImageUrl()).into(imageView);// Replace with your logic for setting image resource
-            textView.setText(place.getName() + "\n📍" + "distance" + " km\nDetails");
+            // Calculate distance using LocationTracker
+            double placeLat = place.getLatitude();
+            double placeLng = place.getLongitude();
+            double distance = locationTracker.calculateDistance(locationTracker.getLatitude(), locationTracker.getLongitude(), placeLat, placeLng);
+            Log.d("userlocation:", "userlocation:" + locationTracker.getLatitude() + "...long.." + locationTracker.getLongitude());
+            Picasso.get().load(place.getImageUrl()).into(imageView);
+            textView.setText(place.getName() + "\n📍" + distance + " km\nDetails");
 
-
-
-
-
-            // Add the inflated layout to the ScrollView
             scrollViewContent.addView(placeView);
         }
     }
 
+
     @Override
     public boolean onQueryTextSubmit(String query) {
-        // Handle search query submission (e.g., start SearchResultsActivity)
+        // Handle search query submissio
         startSearchResultsActivity(query);
         return true;
     }
@@ -137,8 +161,6 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
         // Get the search results based on the query
         DatabaseHandler db = new DatabaseHandler(this);
         List<Place> searchResults = db.searchPlaces(query, null);
-        Intent intents = getIntent();
-        int userId = intents.getIntExtra("userId", -1);
 
         // Start SearchResultsActivity and pass the search results and query
         Intent intent = new Intent(Home.this, SearchResults.class);
@@ -172,4 +194,20 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
         // Generate a unique key for storing the favorite state of a place
         return "favorite_" + placeId;
     }
+
+    @Override
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permissions granted, proceed with your code
+                initialize();
+            } else {
+                // Permissions denied, handle accordingly
+                // For example, you might want to inform the user and disable location-related features
+            }
+        }
+    }
+
 }

@@ -24,7 +24,7 @@ public class FilterOptions extends AppCompatActivity {
         setContentView(R.layout.activity_filteroptions);
         selectedCategories = new ArrayList<>();
 
-        Button nearest = findViewById(R.id.nearest);
+
         Button hilly = findViewById(R.id.hilly);
         Button beach = findViewById(R.id.beach);
         Button attraction = findViewById(R.id.attraction);
@@ -34,12 +34,7 @@ public class FilterOptions extends AppCompatActivity {
         Button back = findViewById(R.id.backbutton);
 
         // Assuming you have some logic to determine the selected category
-        nearest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleCategory("Nearest");  // Toggle the selected category
-            }
-        });
+
 
         hilly.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,9 +88,7 @@ public class FilterOptions extends AppCompatActivity {
         Button clickedButton = null;
 
         switch (category) {
-            case "Nearest":
-                clickedButton = findViewById(R.id.nearest);
-                break;
+
             case "Hilly":
                 clickedButton = findViewById(R.id.hilly);
                 break;
