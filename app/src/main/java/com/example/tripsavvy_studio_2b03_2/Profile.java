@@ -33,7 +33,7 @@ public class Profile extends AppCompatActivity {
 
         User user = udb.getUser(String.valueOf(userId));
         if (user != null) {
-            // Now you can set the user details in your input boxes
+
             EditText editFname = findViewById(R.id.editFname);
             EditText editLname = findViewById(R.id.editLname);
             TextView email = findViewById(R.id.editEmail);
