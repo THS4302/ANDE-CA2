@@ -10,31 +10,28 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDatabaseHandler  extends SQLiteOpenHelper {
+public class TravelPackageDatabaseHandler  extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 10;
     private static final String DATABASE_NAME = "tripSavvyDB";
-    private static final String TABLE_USERS = "users";
-    private static final String USER_ID = "id";
-    private static final String FIRST_NAME = "fname";
-    private static final String LAST_NAME = "lname";
+    private static final String TABLE_PACKAGES = "travelpackages";
 
-    private static final String EMAIL = "email";
-    private static final String PASSWORD = "password";
+    private static final String PACKAGE_ID = "id";
 
-    private static final String POINTS ="points";
+    private static final String GRADE = "grade";
+    private static final String PLACE_ID = "PLACEid";
 
+    private static final String DETAILS = "details";
 
+    private static final String PRICE = "price";
 
-    private static final String PROFILE_URL="image";
-
+    private static final String PACKAGE_IMG = "IMG";
 
 
 
 
 
-
-    public UserDatabaseHandler(Context context) {
+    public TravelPackageDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         //3rd argument to be passed is CursorFactory instance
     }
@@ -42,16 +39,16 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
     // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
-                + USER_ID + " INTEGER PRIMARY KEY, "
-                + FIRST_NAME + " TEXT, "
-                + LAST_NAME + " TEXT, "
-                + EMAIL + " TEXT, "
-                + PASSWORD + " TEXT, "
-                + PROFILE_URL + " TEXT,"
-                + POINTS + " TEXT)";
+        String CREATE_PACKAGES_TABLE = "CREATE TABLE " + TABLE_PACKAGES + "("
+                + PACKAGE_ID + " INTEGER PRIMARY KEY, "
+                + GRADE + " TEXT, "
+                + PLACE_ID + " INTEGER, "
+                + DETAILS + " TEXT, "
+                + PRICE + " REAL, "
 
-        db.execSQL(CREATE_USERS_TABLE);
+                + PACKAGE_IMG + " TEXT)";
+
+        db.execSQL(CREATE_PACKAGES_TABLE);
     }
 
 
@@ -68,36 +65,36 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
         Log.d("DatabaseUpgrade", "Upgrading database from version " + oldVersion + " to " + newVersion);
 
         // Drop older table if existed
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PACKAGES);
 
         // Log the SQL statement for table deletion
-        Log.d("DatabaseUpgrade", "Table dropped: " + TABLE_USERS);
+        Log.d("DatabaseUpgrade", "Table dropped: " + TABLE_PACKAGES);
 
         // Create tables again
         onCreate(db);
 
         // Log the SQL statement for table creation
-        Log.d("DatabaseUpgrade", "Table created: " + TABLE_USERS);
+        Log.d("DatabaseUpgrade", "Table created: " + TABLE_PACKAGES);
     }
 
 
     // code to add the new contact
-    void addUser(User user) {
+    void addPackage(TravelPackage p) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(FIRST_NAME, user.getFirstname());
-        values.put(LAST_NAME, user.getLastname());
-        values.put(EMAIL, user.getEmail());
-        values.put(PASSWORD, user.getPassword());
+        values.put(GRADE,p.getGrade());
+        values.put(PLACE_ID,p.getPlaceid());
+        values.put(DETAILS,p.getDetails());
+        values.put(PRICE,p.getPrice());
+        values.put(PACKAGE_IMG,p.getPackageimg());
 
-        values.put(PROFILE_URL, user.getProfileUrl());
 
-        values.put(POINTS,user.getPoints());
+
 
 
         // Inserting Row
-        db.insert(TABLE_USERS, null, values);
+        db.insert(TABLE_PACKAGES, null, values);
 
         // Close the database connection
         db.close();
@@ -106,28 +103,28 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
 
 
     // code to get the single contact
-    User getUser(String userid) {
-        if (userid == null) {
+    TravelPackage getPackage(String packageid) {
+        if (packageid == null) {
             return null;  // or handle the null case accordingly
         }
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_USERS, new String[] {USER_ID,
-                        FIRST_NAME,LAST_NAME,EMAIL, PASSWORD, PROFILE_URL,POINTS},
-                USER_ID + "=?",
-                new String[] { userid }, null, null, null, null);
+        Cursor cursor = db.query(TABLE_PACKAGES, new String[] {PACKAGE_ID,
+                        GRADE,PLACE_ID,DETAILS, PRICE, PACKAGE_IMG},
+                PACKAGE_ID + "=?",
+                new String[] { packageid }, null, null, null, null);
 
-        User user = null;
+        TravelPackage p = null;
         if (cursor != null && cursor.moveToFirst()) {
-            user = new User();
-            user.setUserId(cursor.getInt(0));
-            user.setFirstname(cursor.getString(1));
-            user.setLastname(cursor.getString(2));
-            user.setEmail(cursor.getString(3));
-            user.setPassword(cursor.getString(4));
-            user.setProfileUrl(cursor.getString(5));
-            user.setPoints(cursor.getInt(6));
+            p = new TravelPackage();
+            p.setPackageid(cursor.getInt(0));
+            p.setGrade(cursor.getString(1));
+            p.setPlaceid(cursor.getInt(2));
+            p.setDetails(cursor.getString(3));
+            p.setPrice(cursor.getFloat(4));
+            p.setPackageimg(cursor.getString(5));
+
 
             // Add other fields as needed
             cursor.close();
@@ -136,14 +133,14 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
         // close the database
         db.close();
 
-        return user;
+        return p;
     }
 
 
 
     // code to get all contacts in a list view
     // code to get all users in a list view
-    public List<User> getAllUsers() {
+  /**  public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_USERS;
@@ -182,7 +179,7 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_USERS, new String[]{USER_ID},
                 EMAIL + "=? AND "+PASSWORD+"=?",
                 new String[]{email,password},null,null,null
-                );
+        );
         int userId=-1;
         if(cursor!=null){
             int userIdColumnIndex = cursor.getColumnIndex(USER_ID);
@@ -222,7 +219,7 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
 
 
     // Deleting single user
-  public void deleteUser(String userid) {
+    public void deleteUser(String userid) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USERS, USER_ID + " = ?",
                 new String[]{userid});
@@ -240,6 +237,8 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
      // return count
      return cursor.getCount();
      } **/
+
+
 }
 
 

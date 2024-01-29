@@ -8,24 +8,29 @@ public class User {
     private String email;
     private String password;
     private String profileUrl;
+    private int points;
 
     public User() {
         // Default constructor required for SQLite
     }
 
-    public User(int userid, String fname, String lname, String email, String password, String profileUrl) {
+    public User(int userid, String fname, String lname, String email, String password, String profileUrl,int points) {
       this.userId=userid;
       this.firstname=fname;
       this.lastname=lname;
       this.email=email;
       this.password=password;
       this.profileUrl=profileUrl;
+      this.points=points;
         // Add other fields as needed
     }
 
     // Add getter methods
     public int getUserId() {
         return userId;
+    }
+    public int getPoints() {
+        return points;
     }
 
     public String getFirstname() {
@@ -53,6 +58,9 @@ public class User {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public void setFirstname(String firstname) {

@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         //db.deletePlace(8);
         //db.deletePlace(9);
         //db.deletePlace(10);
+
         Log.d("Reading: ", "Reading all contacts..");
         List<Place> places = db.getAllPlaces();
 
@@ -74,13 +75,13 @@ public class MainActivity extends AppCompatActivity {
 
         UserDatabaseHandler udb= new UserDatabaseHandler(this);
 
-        //udb.addUser(new User(1,"Ren","San","rensan02@gmail.com","abc","https://i.pinimg.com/originals/96/4f/3a/964f3a01c170d9306a7e091729f75935.jpg"));
+        //udb.addUser(new User(1,"Ren","San","rensan02@gmail.com","abc","https://i.pinimg.com/originals/96/4f/3a/964f3a01c170d9306a7e091729f75935.jpg",0));
 
-        //udb.addUser(new User(2,"test","testing","test@test.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg"));
-        //udb.addUser(new User(3,"please","work","work@work.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg"));
+       // udb.addUser(new User(2,"test","testing","test@test.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
+        //udb.addUser(new User(3,"please","work","work@work.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
 
-        udb.deleteUser("4");
-        udb.deleteUser("5");
+        //udb.deleteUser("4");
+        //udb.deleteUser("5");
         Log.d("Reading: ", "Reading all users..");
         List<User> users = udb.getAllUsers();
 

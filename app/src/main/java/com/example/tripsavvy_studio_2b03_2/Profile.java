@@ -142,7 +142,7 @@ public class Profile extends AppCompatActivity {
         Log.d("profileurl","newprofileurl..."+newProfileUrl);
 
         // Create a new User object with the updated values
-        User updatedUser = new User(user.getUserId(), newFirstName, newLastName, newEmail, newPassword, newProfileUrl);
+        User updatedUser = new User(user.getUserId(), newFirstName, newLastName, newEmail, newPassword, newProfileUrl, user.getPoints());
 
         // Update the user profile in the database
         int rowsAffected = udb.updateUser(updatedUser);
