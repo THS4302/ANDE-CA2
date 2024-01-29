@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -123,6 +125,26 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
 
             boolean isFavorite = isPlaceFavorite(place.getPlaceId());
             favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
+
+            placeView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Handle the click event for the place item
+
+                    Intent intentplacedetails=new Intent(Home.this,PlaceDetails.class);
+                    intentplacedetails.putExtra("userId", userId);
+                    intentplacedetails.putExtra("placeId", place.getPlaceId());
+                    Log.d("Placeid","placeid:"+place.getPlaceId());
+                    intentplacedetails.putExtra("userLat", locationTracker.getLatitude());
+                    intentplacedetails.putExtra("userLng", locationTracker.getLongitude());
+
+
+                    startActivity(intentplacedetails);
+
+                    //Toast.makeText(Home.this, "Place Item Clicked!", Toast.LENGTH_SHORT).show();
+
+                }
+            });
 
             favoriteButton.setOnClickListener(new View.OnClickListener() {
                 @Override

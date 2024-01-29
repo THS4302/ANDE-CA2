@@ -36,6 +36,7 @@
         <activity android:name=".Login"> </activity>
         <activity android:name=".Home"> </activity>
         <activity android:name=".Register"></activity>
+        <activity android:name=".PlaceDetails"/>
 
         <activity android:name=".Favorites" />
         <activity android:name=".SearchResults" />

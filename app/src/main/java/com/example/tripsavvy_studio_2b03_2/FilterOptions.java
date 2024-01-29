@@ -70,6 +70,13 @@ public class FilterOptions extends AppCompatActivity {
             }
         });
 
+        back.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                finish();
+            }
+        });
+
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,8 +1,14 @@
 package com.example.tripsavvy_studio_2b03_2;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,8 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -39,10 +47,14 @@ public class Profile extends AppCompatActivity {
             TextView email = findViewById(R.id.editEmail);
             EditText editnewPass=findViewById(R.id.newPassword);
             EditText editconPass=findViewById(R.id.confirmPassword);
+            TextView points = findViewById(R.id.points);
+            points.setPaintFlags(points.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
 // Set values in input boxes
             editFname.setText(user.getFirstname());
             editLname.setText(user.getLastname());
             email.setText(user.getEmail());
+            points.setText(user.getPoints()+" points");
             //editnewPass.setText(user.getPassword());
 
 // Check if new password fields match
@@ -68,6 +80,7 @@ public class Profile extends AppCompatActivity {
 
 
             Button updateProfileButton = findViewById(R.id.updateProfile);
+
             updateProfileButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -91,6 +104,15 @@ public class Profile extends AppCompatActivity {
                 logout();
             }
         });
+        Button deleteAccountButton = findViewById(R.id.deleteAccount);
+        deleteAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call the logout method or perform logout actions here
+                deleteAccount();
+            }
+        });
+
     }
 
     private void openImagePicker() {
@@ -120,7 +142,11 @@ public class Profile extends AppCompatActivity {
             // Save the new image URI to the user object
             user.setProfileUrl(imageUri.toString());
             String newimg =imageUri.toString();
-            Log.d("set","setImgUri"+newimg);
+            Log.d("set","setImgUri"+user.getProfileUrl());
+            Log.d("newimg","string"+newimg);
+            udb.updateProfile(userId,newimg);
+
+
         }
     }
 
@@ -137,9 +163,10 @@ public class Profile extends AppCompatActivity {
             newPassword = user.getPassword();
         }
 
+
         // Get the existing image URL
         String newProfileUrl = user.getProfileUrl();
-        Log.d("profileurl","newprofileurl..."+newProfileUrl);
+       Log.d("profileurl","newprofileurl..."+newProfileUrl);
 
         // Create a new User object with the updated values
         User updatedUser = new User(user.getUserId(), newFirstName, newLastName, newEmail, newPassword, newProfileUrl, user.getPoints());
@@ -175,6 +202,128 @@ public class Profile extends AppCompatActivity {
         startActivity(intent);
         finish(); // Finish the current activity
     }
+
+    private void deleteAccount() {
+        // Create an AlertDialog with an EditText for password input
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirm Delete");
+        builder.setMessage("Enter your password to confirm delete (Note: Account will be deleted forever.");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Retrieve the entered password
+                String enteredPassword = input.getText().toString();
+
+                // Check if the entered password is correct (you need to implement this part)
+                if (isPasswordCorrect(enteredPassword)) {
+                    // Password is correct, perform delete account action
+                    performDeleteAccount();
+                } else {
+                    // Password is incorrect, show a message or handle accordingly
+                    Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        // Show the AlertDialog
+        builder.show();
+    }
+
+    // Implement this method to check if the entered password is correct
+    private boolean isPasswordCorrect(String enteredPassword) {
+        UserDatabaseHandler udb = new UserDatabaseHandler(Profile.this);
+        Intent intent = getIntent();
+        int userId = intent.getIntExtra("userId", -1);
+
+        User user = udb.getUser(String.valueOf(userId));
+
+        return enteredPassword.equals(user.getPassword());
+    }
+
+    // Implement this method for the actual delete account action
+    private void performDeleteAccount() {
+        UserDatabaseHandler udb = new UserDatabaseHandler(Profile.this);
+        Intent intent = getIntent();
+        int userId = intent.getIntExtra("userId", -1);
+
+       udb.deleteUser(String.valueOf(userId));
+        Toast.makeText(getApplicationContext(), "Account deleted successfully", Toast.LENGTH_SHORT).show();
+        Intent intentdelete = new Intent(Profile.this, Login.class);
+        intentdelete.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intentdelete);
+        finish();
+        // Add code to navigate to the login or home screen
+    }
+
+    public void onPointsClick(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Set the title and message
+        builder.setTitle("How To Collect Points");
+        builder.setMessage("You can collect points when you purchase any travel packages.\n" +
+                "$10=1 point");
+
+        // Add a positive button (OK button) and its click listener
+        builder.setPositiveButton("Next", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Dismiss the current dialog
+                dialog.dismiss();
+
+                // Show the next dialog
+                showNextDialog();
+            }
+        });
+
+        // Add a negative button (Cancel button) and its click listener
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Handle Cancel button click (you can perform any action here)
+                dialog.dismiss(); // Dismiss the dialog
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void showNextDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // Set the title and message for the next dialog
+        builder.setTitle("How To Use Points");
+        builder.setMessage("You can use points when you purchase any travel packages by clicking on the “Use Points” toggle button. \n" +
+                "All points will be used. You cannot choose the amount of points.\n" +
+                "1 point = $1");
+
+        // Add a positive button (OK button) and its click listener
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // Handle OK button click (you can perform any action here)
+                dialog.dismiss(); // Dismiss the dialog
+            }
+        });
+
+        // Create and show the next AlertDialog
+        AlertDialog nextDialog = builder.create();
+        nextDialog.show();
+    }
+
+
+
 
 }
 

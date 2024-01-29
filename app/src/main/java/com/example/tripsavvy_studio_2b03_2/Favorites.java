@@ -41,7 +41,11 @@ public class Favorites extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_home:
-                        startActivity(new Intent(Favorites.this, Home.class));
+                        Intent intenth = new Intent(Favorites.this, Home.class);
+                        intenth.putExtra("userId", userId);
+
+                        startActivity(intenth);
+
                         return true;
 
                     case R.id.action_favourites:
@@ -56,6 +60,10 @@ public class Favorites extends AppCompatActivity {
                         intentp.putExtra("userId", userId);
                         startActivity(intentp);
                         finish();
+                        return true;
+
+                    case R.id.action_store:
+                        startActivity(new Intent(Favorites.this, Store.class));
                         return true;
 
                     // Add cases for other bottom navigation items if needed

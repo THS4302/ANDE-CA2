@@ -220,6 +220,25 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
         return rowsAffected;
     }
 
+    public int updateProfile(int userId,String profileUrl) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(PROFILE_URL,profileUrl);
+
+
+        // Updating Row
+        int rowsAffected = db.update(TABLE_USERS, values, USER_ID + "=?",
+                new String[]{String.valueOf(userId)});
+
+        // Close the database connection
+        db.close();
+
+        return rowsAffected;
+    }
+
+
 
     // Deleting single user
   public void deleteUser(String userid) {

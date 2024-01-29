@@ -101,7 +101,7 @@ public class Place implements Serializable {
     }
 
     public void setDescription(String description) {
-        this.country = description;
+        this.description = description;
     }
 
     public void setRating(float rating) {
