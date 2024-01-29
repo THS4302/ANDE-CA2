@@ -115,7 +115,7 @@ public class PlaceDetails extends AppCompatActivity {
                 }
             }
         });
-
+        bottomNavigationView.setSelectedItemId(0);
         // Set the default selected item programmatically
 
     }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,7 +45,26 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
         // Initialize scrollViewContent
         scrollViewContent = findViewById(R.id.scrollViewContent);
 
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        View rootView = findViewById(android.R.id.content);
+        rootView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            private int previousHeight = rootView.getHeight();
+
+            @Override
+            public boolean onPreDraw() {
+                int newHeight = rootView.getHeight();
+                if (newHeight < previousHeight) {
+                    // Keyboard is shown, hide the Bottom Navigation Bar
+                    bottomNavigationView.setVisibility(View.GONE);
+                } else if (newHeight > previousHeight) {
+                    // Keyboard is hidden, show the Bottom Navigation Bar
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                }
+                previousHeight = newHeight;
+                return true;
+            }
+        });
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -189,6 +209,9 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
         intent.putExtra("userId", userId);
         intent.putExtra("searchResults", (Serializable) searchResults); // Make sure Place implements Serializable
         intent.putExtra("searchQuery", query);
+        intent.putExtra("userLat", locationTracker.getLatitude());
+        intent.putExtra("userLng", locationTracker.getLongitude());
+
         startActivity(intent);
     }
 

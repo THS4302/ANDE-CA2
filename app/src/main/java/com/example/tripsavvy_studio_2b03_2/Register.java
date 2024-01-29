@@ -1,5 +1,6 @@
 package com.example.tripsavvy_studio_2b03_2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -70,7 +71,8 @@ public class Register extends AppCompatActivity {
 
         // Display a success message
         Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
-
+        Intent i=new Intent(Register.this,Login.class);
+        startActivity(i);
         // Optionally, you can navigate to another activity or perform additional actions here.
     }
 

@@ -20,11 +20,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class SearchResults extends AppCompatActivity {
     private LinearLayout scrollViewContent;
     private List<Place> originalSearchResults;
+    private LocationTracker locationTracker;
 
     private static final int FILTER_OPTIONS_REQUEST_CODE = 1;
 
@@ -33,8 +36,11 @@ public class SearchResults extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_searched);
+        initialize();
         Intent intent = getIntent();
         int userId = intent.getIntExtra("userId", -1);
+        double userLat = intent.getDoubleExtra("userLat", 0.0);
+        double userLng = intent.getDoubleExtra("userLng", 0.0);
         Log.d("userid","userid:"+userId);
 
         String searchQuery = intent.getStringExtra("searchQuery");
@@ -96,6 +102,7 @@ public class SearchResults extends AppCompatActivity {
                 startActivityForResult(intent, FILTER_OPTIONS_REQUEST_CODE);
             }
         });
+
         bottomNavigationView.setSelectedItemId(0);
     }
 
@@ -127,13 +134,26 @@ public class SearchResults extends AppCompatActivity {
         }
     }
 
-
+    private void initialize() {
+        // Create the LocationTracker instance
+        locationTracker = new LocationTracker(this);
+    }
     private void populateScrollView(List<Place> places) {
         scrollViewContent.removeAllViews();
         LayoutInflater inflater = LayoutInflater.from(this);
+        Collections.sort(places, new Comparator<Place>() {
+            @Override
+            public int compare(Place place1, Place place2) {
+                double distance1 = locationTracker.calculateDistance(locationTracker.getLatitude(), locationTracker.getLongitude(), place1.getLatitude(), place1.getLongitude());
+                double distance2 = locationTracker.calculateDistance(locationTracker.getLatitude(), locationTracker.getLongitude(), place2.getLatitude(), place2.getLongitude());
+
+                // Compare distances
+                return Double.compare(distance1, distance2);
+            }
+        });
 
         for (Place place : places) {
-            // Inflate the layout for each place
+            // Inflate the layout for each favorited place
             View placeView = inflater.inflate(R.layout.place_item, scrollViewContent, false);
 
             // Find views in the inflated layout
@@ -152,10 +172,19 @@ public class SearchResults extends AppCompatActivity {
                     toggleFavorite(place.getPlaceId(), favoriteButton);
                 }
             });
-
             // Use Picasso to load the image from the URL
             Picasso.get().load(place.getImageUrl()).into(imageView);
-            textView.setText(place.getName() + "\n📍" + "distance" + " km\nDetails");
+
+            Intent intent = getIntent();
+
+            double userLat = intent.getDoubleExtra("userLat", 0.0);
+            double userLng = intent.getDoubleExtra("userLng", 0.0);
+            double placeLat = place.getLatitude();
+            double placeLng = place.getLongitude();
+            double distance = locationTracker.calculateDistance(userLat,userLng, placeLat, placeLng);
+            Log.d("userlocation:", "userlocation:" + locationTracker.getLatitude() + "...long.." + locationTracker.getLongitude());
+            Picasso.get().load(place.getImageUrl()).into(imageView);
+            textView.setText(place.getName() + "\n📍" + distance + " km\nDetails");
 
             // Add the inflated layout to the ScrollView
             scrollViewContent.addView(placeView);
