@@ -233,6 +233,13 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
                 .edit()
                 .putBoolean(getFavoriteKey(placeId), isFavorite)
                 .apply();
+
+        // Show a Toast message based on the current favorite state
+        if (isFavorite) {
+            Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private String getFavoriteKey(int placeId) {

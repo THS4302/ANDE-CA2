@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -114,7 +115,26 @@ public class Favorites extends AppCompatActivity {
 
             boolean isFavorite = isPlaceFavorite(place.getPlaceId());
             favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
+            placeView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Handle the click event for the place item
+                    Intent intent = getIntent();
+                    int userId = intent.getIntExtra("userId", -1);
+                    Intent intentplacedetails=new Intent(Favorites.this,PlaceDetails.class);
+                    intentplacedetails.putExtra("userId", userId);
+                    intentplacedetails.putExtra("placeId", place.getPlaceId());
+                    Log.d("Placeid","placeid:"+place.getPlaceId());
+                    intentplacedetails.putExtra("userLat", locationTracker.getLatitude());
+                    intentplacedetails.putExtra("userLng", locationTracker.getLongitude());
 
+
+                    startActivity(intentplacedetails);
+
+                    //Toast.makeText(Home.this, "Place Item Clicked!", Toast.LENGTH_SHORT).show();
+
+                }
+            });
             favoriteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -162,7 +182,15 @@ public class Favorites extends AppCompatActivity {
                 .edit()
                 .putBoolean(getFavoriteKey(placeId), isFavorite)
                 .apply();
+
+        // Show a Toast message based on the current favorite state
+        if (isFavorite) {
+            Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
+        }
     }
+
 
 
 }
