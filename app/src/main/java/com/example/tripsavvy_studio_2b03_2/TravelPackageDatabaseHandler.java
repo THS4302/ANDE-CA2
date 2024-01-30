@@ -138,93 +138,49 @@ public class TravelPackageDatabaseHandler  extends SQLiteOpenHelper {
 
 
 
-    // code to get all contacts in a list view
-    // code to get all users in a list view
-  /**  public List<User> getAllUsers() {
-        List<User> userList = new ArrayList<>();
+    public List<TravelPackage> getAllPackages() {
+        List<TravelPackage> packageList = new ArrayList<>();
+
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_USERS;
+        String selectQuery = "SELECT * FROM " + TABLE_PACKAGES;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
+        // Looping through all rows and adding to the list
         if (cursor.moveToFirst()) {
             do {
-                User user = new User();
+                TravelPackage p = new TravelPackage();
+                p.setPackageid(cursor.getInt(0));
+                p.setGrade(cursor.getString(1));
+                p.setPlaceid(cursor.getInt(2));
+                p.setDetails(cursor.getString(3));
+                p.setPrice(cursor.getFloat(4));
+                p.setPackageimg(cursor.getString(5));
 
-                user.setUserId(cursor.getInt(0));
-                user.setFirstname(cursor.getString(1));
-                user.setLastname(cursor.getString(2));
-                user.setEmail(cursor.getString(3));
-                user.setPassword(cursor.getString(4));
-                user.setProfileUrl(cursor.getString(5));
-                user.setPoints(cursor.getInt(6));
-
-                // Add each user to the list
-                userList.add(user);
+                // Add each package to the list
+                packageList.add(p);
             } while (cursor.moveToNext());
         }
 
-        // close the cursor and database
+        // Close the cursor and database
         cursor.close();
         db.close();
 
-        // return user list
-        return userList;
+        // Return the package list
+        return packageList;
     }
 
-    public int checkUserCreds(String email, String password){
-        SQLiteDatabase db=this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_USERS, new String[]{USER_ID},
-                EMAIL + "=? AND "+PASSWORD+"=?",
-                new String[]{email,password},null,null,null
-        );
-        int userId=-1;
-        if(cursor!=null){
-            int userIdColumnIndex = cursor.getColumnIndex(USER_ID);
-            if(cursor.moveToFirst()&& userIdColumnIndex!=-1){
-                userId=cursor.getInt(userIdColumnIndex);
-            }
-
-            cursor.close();
-        }
-        db.close();
-        return userId;
-
-
-    }
-
-
-    public int updateUser(User user) {
+    public void deletePackage(int packageId) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(FIRST_NAME, user.getFirstname());
-        values.put(LAST_NAME, user.getLastname());
-        values.put(EMAIL, user.getEmail());
-        values.put(PASSWORD,user.getPassword());
-        values.put(PROFILE_URL, user.getProfileUrl());
+        // Delete single package
+        db.delete(TABLE_PACKAGES, PACKAGE_ID + " = ?", new String[]{String.valueOf(packageId)});
 
-
-        // Updating Row
-        int rowsAffected = db.update(TABLE_USERS, values, USER_ID + "=?",
-                new String[]{String.valueOf(user.getUserId())});
-
-        // Close the database connection
-        db.close();
-
-        return rowsAffected;
-    }
-
-
-    // Deleting single user
-    public void deleteUser(String userid) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_USERS, USER_ID + " = ?",
-                new String[]{userid});
+        // Close the database
         db.close();
     }
+
 
 
     // Getting contacts Count
