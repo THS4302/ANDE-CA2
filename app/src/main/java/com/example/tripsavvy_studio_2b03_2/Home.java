@@ -256,8 +256,8 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
                 // Permissions granted, proceed with your code
                 initialize();
             } else {
-                // Permissions denied, handle accordingly
-                // For example, you might want to inform the user and disable location-related features
+                Toast.makeText(this, "Location permission denied. Some features may be disabled.", Toast.LENGTH_SHORT).show();
+                initialize();
             }
         }
     }

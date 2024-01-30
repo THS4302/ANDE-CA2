@@ -26,21 +26,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         DatabaseHandler db = new DatabaseHandler(this);
-        db.deletePlace(1);
-        db.deletePlace(2);
-        db.deletePlace(3);
-        db.deletePlace(4);
-        db.deletePlace(5);
-        db.deletePlace(6);
-        db.deletePlace(7);
-        db.deletePlace(8);
-        db.deletePlace(9);
-        db.deletePlace(10);
-        db.deletePlace(11);
-        db.deletePlace(12);
-        db.deletePlace(13);
-        db.deletePlace(14);
-        db.deletePlace(15);
 
         // Inserting Contacts
         // Log.d("Insert Data : ", "Inserting ..");
@@ -86,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
 
         UserDatabaseHandler udb= new UserDatabaseHandler(this);
 
-        //udb.addUser(new User(1,"Ren","San","rensan02@gmail.com","abc","https://i.pinimg.com/originals/96/4f/3a/964f3a01c170d9306a7e091729f75935.jpg",0));
+        udb.addUser(new User(1,"Ren","San","rensan02@gmail.com","abc","https://i.pinimg.com/originals/96/4f/3a/964f3a01c170d9306a7e091729f75935.jpg",0));
 
-       // udb.addUser(new User(2,"test","testing","test@test.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
-        //udb.addUser(new User(3,"please","work","work@work.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
+       udb.addUser(new User(2,"test","testing","test@test.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
+        udb.addUser(new User(3,"please","work","work@work.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
 
         //udb.deleteUser("4");
         //udb.deleteUser("5");

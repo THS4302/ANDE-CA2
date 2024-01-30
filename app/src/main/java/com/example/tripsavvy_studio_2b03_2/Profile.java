@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,10 +19,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -112,6 +115,43 @@ public class Profile extends AppCompatActivity {
                 deleteAccount();
             }
         });
+BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        Intent intenth = new Intent(Profile.this, Favorites.class);
+                        intenth.putExtra("", userId);
+
+                        return true;
+
+                    case R.id.action_favourites:
+                        Intent intentf = new Intent(Profile.this, Favorites.class);
+                        intentf.putExtra("userId", userId);
+
+                        startActivity(intentf);
+                        return true;
+
+                    case R.id.action_profile:
+
+                        return true;
+
+                    case R.id.action_store:
+                        Intent intents = new Intent(Profile.this, Store.class);
+                        intents.putExtra("userId", userId);
+                        startActivity(intents);
+
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+        });
+
+        // Set the default selected item programmatically
+        bottomNavigationView.setSelectedItemId(R.id.action_home);
 
     }
 
