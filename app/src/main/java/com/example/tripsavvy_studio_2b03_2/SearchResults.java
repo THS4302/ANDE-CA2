@@ -142,6 +142,8 @@ public class SearchResults extends AppCompatActivity {
     private void populateScrollView(List<Place> places) {
         scrollViewContent.removeAllViews();
         LayoutInflater inflater = LayoutInflater.from(this);
+        Intent intent = getIntent();
+        int userId = intent.getIntExtra("userId", -1);
         Collections.sort(places, new Comparator<Place>() {
             @Override
             public int compare(Place place1, Place place2) {
@@ -163,7 +165,7 @@ public class SearchResults extends AppCompatActivity {
             ImageButton favoriteButton = placeView.findViewById(R.id.buttonFavorite2);
             favoriteButton.setTag(place.getPlaceId());
 
-            boolean isFavorite = isPlaceFavorite(place.getPlaceId());
+            boolean isFavorite = isPlaceFavorite(userId,place.getPlaceId());
             favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
             placeView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -188,17 +190,20 @@ public class SearchResults extends AppCompatActivity {
             favoriteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Intent intent = getIntent();
+                    int userId = intent.getIntExtra("userId", -1);
                     // Toggle the favorite state when the button is clicked
-                    toggleFavorite(place.getPlaceId(), favoriteButton);
+                    toggleFavorite(userId,place.getPlaceId(), favoriteButton);
                 }
             });
+
             // Use Picasso to load the image from the URL
             Picasso.get().load(place.getImageUrl()).into(imageView);
 
-            Intent intent = getIntent();
+            Intent intentj = getIntent();
 
-            double userLat = intent.getDoubleExtra("userLat", 0.0);
-            double userLng = intent.getDoubleExtra("userLng", 0.0);
+            double userLat = intentj.getDoubleExtra("userLat", 0.0);
+            double userLng = intentj.getDoubleExtra("userLng", 0.0);
             double placeLat = place.getLatitude();
             double placeLng = place.getLongitude();
             double distance = locationTracker.calculateDistance(userLat,userLng, placeLat, placeLng);
@@ -211,14 +216,20 @@ public class SearchResults extends AppCompatActivity {
         }
     }
 
-    private boolean isPlaceFavorite(int placeId) {
-        return getSharedPreferences("Favorites", MODE_PRIVATE)
-                .getBoolean(getFavoriteKey(placeId), false);
+    private String getFavoriteKey(int userId, int placeId) {
+        // Generate a unique key for storing the favorite state of a place for a specific user
+        return "favorite_" + userId + "_" + placeId;
     }
 
-    private void toggleFavorite(int placeId, ImageButton favoriteButton) {
+    private boolean isPlaceFavorite(int userId, int placeId) {
+        // Retrieve the current state of the favorite for the given placeId and userId from SharedPreferences
+        return getSharedPreferences("Favorites", MODE_PRIVATE)
+                .getBoolean(getFavoriteKey(userId, placeId), false);
+    }
+
+    private void toggleFavorite(int userId, int placeId, ImageButton favoriteButton) {
         // Toggle the favorite state
-        boolean isFavorite = !isPlaceFavorite(placeId);
+        boolean isFavorite = !isPlaceFavorite(userId, placeId);
 
         // Update the button state
         favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
@@ -226,7 +237,7 @@ public class SearchResults extends AppCompatActivity {
         // Save the updated state to SharedPreferences
         getSharedPreferences("Favorites", MODE_PRIVATE)
                 .edit()
-                .putBoolean(getFavoriteKey(placeId), isFavorite)
+                .putBoolean(getFavoriteKey(userId, placeId), isFavorite)
                 .apply();
 
         // Show a Toast message based on the current favorite state
@@ -236,22 +247,4 @@ public class SearchResults extends AppCompatActivity {
             Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
         }
     }
-
-    private String getFavoriteKey(int placeId) {
-        return "favorite_" + placeId;
-    }
-
-    private List<Place> filterResults(List<String> selectedCategories) {
-        List<Place> filteredResults = new ArrayList<>();
-
-        // Implement your filtering logic here based on the selected categories
-        for (Place place : originalSearchResults) {
-            if (selectedCategories.contains(place.getPlacecat())) {
-                filteredResults.add(place);
-            }
-        }
-
-        return filteredResults;
-    }
-
 }

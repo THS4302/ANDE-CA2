@@ -42,17 +42,18 @@ public class PlaceDetails extends AppCompatActivity {
         favoriteButton.setTag(place.getPlaceId());
 
         // Check if the place is already a favorite
-        boolean isFavorite = isPlaceFavorite(placeId);
+        boolean isFavorite = isPlaceFavorite(userId,placeId);
         favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
 
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Toggle the favorite state
-                toggleFavorite(place.getPlaceId(), favoriteButton);
+                toggleFavorite(userId
+                        ,place.getPlaceId(), favoriteButton);
 
                 // Update the button state after toggling
-                boolean isFavorite = isPlaceFavorite(placeId);
+                boolean isFavorite = isPlaceFavorite(userId,placeId);
                 favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
             }
         });
@@ -62,7 +63,7 @@ public class PlaceDetails extends AppCompatActivity {
             favoriteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    toggleFavorite(place.getPlaceId(), favoriteButton);
+                    toggleFavorite(userId,place.getPlaceId(), favoriteButton);
                 }
             });
             ImageView placeImage = findViewById(R.id.placeImage);
@@ -124,15 +125,20 @@ public class PlaceDetails extends AppCompatActivity {
         // Create the LocationTracker instance
         locationTracker = new LocationTracker(this);
     }
-    private boolean isPlaceFavorite(int placeId) {
-        // Retrieve the current state of the favorite for the given placeId
-        return getSharedPreferences("Favorites", MODE_PRIVATE)
-                .getBoolean(getFavoriteKey(placeId), false);
+    private String getFavoriteKey(int userId, int placeId) {
+        // Generate a unique key for storing the favorite state of a place for a specific user
+        return "favorite_" + userId + "_" + placeId;
     }
 
-    private void toggleFavorite(int placeId, ImageButton favoriteButton) {
+    private boolean isPlaceFavorite(int userId, int placeId) {
+        // Retrieve the current state of the favorite for the given placeId and userId from SharedPreferences
+        return getSharedPreferences("Favorites", MODE_PRIVATE)
+                .getBoolean(getFavoriteKey(userId, placeId), false);
+    }
+
+    private void toggleFavorite(int userId, int placeId, ImageButton favoriteButton) {
         // Toggle the favorite state
-        boolean isFavorite = !isPlaceFavorite(placeId);
+        boolean isFavorite = !isPlaceFavorite(userId, placeId);
 
         // Update the button state
         favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
@@ -140,7 +146,7 @@ public class PlaceDetails extends AppCompatActivity {
         // Save the updated state to SharedPreferences
         getSharedPreferences("Favorites", MODE_PRIVATE)
                 .edit()
-                .putBoolean(getFavoriteKey(placeId), isFavorite)
+                .putBoolean(getFavoriteKey(userId, placeId), isFavorite)
                 .apply();
 
         // Show a Toast message based on the current favorite state
@@ -149,11 +155,6 @@ public class PlaceDetails extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private String getFavoriteKey(int placeId) {
-        // Generate a unique key for storing the favorite state of a place
-        return "favorite_" + placeId;
     }
 
 }

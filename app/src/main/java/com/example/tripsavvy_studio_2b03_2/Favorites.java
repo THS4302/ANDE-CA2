@@ -82,11 +82,13 @@ public class Favorites extends AppCompatActivity {
 
     private List<Place> getFavoritedPlaces() {
         List<Place> favoritedPlaces = new ArrayList<>();
+        Intent intent = getIntent();
+        int userId = intent.getIntExtra("userId", -1);
         DatabaseHandler db = new DatabaseHandler(this);
 
         // Iterate over all places to find the favorited ones
         for (Place place : db.getAllPlaces()) {
-            if (isPlaceFavorite(place.getPlaceId())) {
+            if (isPlaceFavorite(userId,place.getPlaceId())) {
                 favoritedPlaces.add(place);
             }
         }
@@ -99,7 +101,8 @@ public class Favorites extends AppCompatActivity {
 
     private void populateFavorites(List<Place> favoritedPlaces) {
         LayoutInflater inflater = LayoutInflater.from(this);
-
+        Intent intentid = getIntent();
+        int userId = intentid.getIntExtra("userId", -1);
         // Clear existing views from the container
         favViewContent.removeAllViews();
 
@@ -113,7 +116,7 @@ public class Favorites extends AppCompatActivity {
             ImageButton favoriteButton = placeView.findViewById(R.id.buttonFavorite2);
             favoriteButton.setTag(place.getPlaceId());
 
-            boolean isFavorite = isPlaceFavorite(place.getPlaceId());
+            boolean isFavorite = isPlaceFavorite(userId,place.getPlaceId());
             favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
             placeView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,7 +142,7 @@ public class Favorites extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // Toggle the favorite state when the button is clicked
-                    toggleFavorite(place.getPlaceId(), favoriteButton);
+                    toggleFavorite(userId,place.getPlaceId(), favoriteButton);
                 }
             });
             // Use Picasso to load the image from the URL
@@ -160,19 +163,20 @@ public class Favorites extends AppCompatActivity {
             favViewContent.addView(placeView);
         }
     }
-    private String getFavoriteKey(int placeId) {
-        // Generate a unique key for storing the favorite state of a place
-        return "favorite_" + placeId;
-    }
-    private boolean isPlaceFavorite(int placeId) {
-        // Retrieve the current state of the favorite for the given placeId from SharedPreferences
-        return getSharedPreferences("Favorites", MODE_PRIVATE)
-                .getBoolean(getFavoriteKey(placeId), false);
+    private String getFavoriteKey(int userId, int placeId) {
+        // Generate a unique key for storing the favorite state of a place for a specific user
+        return "favorite_" + userId + "_" + placeId;
     }
 
-    private void toggleFavorite(int placeId, ImageButton favoriteButton) {
+    private boolean isPlaceFavorite(int userId, int placeId) {
+        // Retrieve the current state of the favorite for the given placeId and userId from SharedPreferences
+        return getSharedPreferences("Favorites", MODE_PRIVATE)
+                .getBoolean(getFavoriteKey(userId, placeId), false);
+    }
+
+    private void toggleFavorite(int userId, int placeId, ImageButton favoriteButton) {
         // Toggle the favorite state
-        boolean isFavorite = !isPlaceFavorite(placeId);
+        boolean isFavorite = !isPlaceFavorite(userId, placeId);
 
         // Update the button state
         favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
@@ -180,7 +184,7 @@ public class Favorites extends AppCompatActivity {
         // Save the updated state to SharedPreferences
         getSharedPreferences("Favorites", MODE_PRIVATE)
                 .edit()
-                .putBoolean(getFavoriteKey(placeId), isFavorite)
+                .putBoolean(getFavoriteKey(userId, placeId), isFavorite)
                 .apply();
 
         // Show a Toast message based on the current favorite state

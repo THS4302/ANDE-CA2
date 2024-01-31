@@ -143,7 +143,7 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
             ImageButton favoriteButton = placeView.findViewById(R.id.buttonFavorite2);
             favoriteButton.setTag(place.getPlaceId());
 
-            boolean isFavorite = isPlaceFavorite(place.getPlaceId());
+            boolean isFavorite = isPlaceFavorite(userId,place.getPlaceId());
             favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
 
             placeView.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +169,7 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
             favoriteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    toggleFavorite(place.getPlaceId(), favoriteButton);
+                    toggleFavorite(userId,place.getPlaceId(), favoriteButton);
                 }
             });
 
@@ -215,15 +215,20 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
         startActivity(intent);
     }
 
-    private boolean isPlaceFavorite(int placeId) {
-        // Retrieve the current state of the favorite for the given placeId
-        return getSharedPreferences("Favorites", MODE_PRIVATE)
-                .getBoolean(getFavoriteKey(placeId), false);
+    private String getFavoriteKey(int userId, int placeId) {
+        // Generate a unique key for storing the favorite state of a place for a specific user
+        return "favorite_" + userId + "_" + placeId;
     }
 
-    private void toggleFavorite(int placeId, ImageButton favoriteButton) {
+    private boolean isPlaceFavorite(int userId, int placeId) {
+        // Retrieve the current state of the favorite for the given placeId and userId from SharedPreferences
+        return getSharedPreferences("Favorites", MODE_PRIVATE)
+                .getBoolean(getFavoriteKey(userId, placeId), false);
+    }
+
+    private void toggleFavorite(int userId, int placeId, ImageButton favoriteButton) {
         // Toggle the favorite state
-        boolean isFavorite = !isPlaceFavorite(placeId);
+        boolean isFavorite = !isPlaceFavorite(userId, placeId);
 
         // Update the button state
         favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
@@ -231,7 +236,7 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
         // Save the updated state to SharedPreferences
         getSharedPreferences("Favorites", MODE_PRIVATE)
                 .edit()
-                .putBoolean(getFavoriteKey(placeId), isFavorite)
+                .putBoolean(getFavoriteKey(userId, placeId), isFavorite)
                 .apply();
 
         // Show a Toast message based on the current favorite state
@@ -242,24 +247,5 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
         }
     }
 
-    private String getFavoriteKey(int placeId) {
-        // Generate a unique key for storing the favorite state of a place
-        return "favorite_" + placeId;
-    }
-
-    @Override
-
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permissions granted, proceed with your code
-                initialize();
-            } else {
-                Toast.makeText(this, "Location permission denied. Some features may be disabled.", Toast.LENGTH_SHORT).show();
-                initialize();
-            }
-        }
-    }
 
 }
