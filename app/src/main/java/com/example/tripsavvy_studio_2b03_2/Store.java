@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +45,26 @@ public class Store extends AppCompatActivity implements SearchView.OnQueryTextLi
         // Initialize scrollViewContent
         scrollViewContent = findViewById(R.id.scrollViewShop);
 
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        View rootView = findViewById(android.R.id.content);
+        rootView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            private int previousHeight = rootView.getHeight();
+
+            @Override
+            public boolean onPreDraw() {
+                int newHeight = rootView.getHeight();
+                if (newHeight < previousHeight) {
+                    // Keyboard is shown, hide the Bottom Navigation Bar
+                    bottomNavigationView.setVisibility(View.GONE);
+                } else if (newHeight > previousHeight) {
+                    // Keyboard is hidden, show the Bottom Navigation Bar
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                }
+                previousHeight = newHeight;
+                return true;
+            }
+        });
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -55,7 +77,7 @@ public class Store extends AppCompatActivity implements SearchView.OnQueryTextLi
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_home:
+                    case R.id.action_store:
                         // Handle the home item if needed
                         return true;
 
@@ -73,7 +95,7 @@ public class Store extends AppCompatActivity implements SearchView.OnQueryTextLi
                         startActivity(intentp);
                         return true;
 
-                    case R.id.action_store:
+                    case R.id.action_home:
                         startActivity(new Intent(Store.this, Store.class));
                         return true;
 
@@ -114,7 +136,7 @@ public class Store extends AppCompatActivity implements SearchView.OnQueryTextLi
 
         // Populate the scroll view with sorted places
         for (Place place : places) {
-            View placeView = inflater.inflate(R.layout.place_item, scrollViewContent, false);
+            View placeView = inflater.inflate(R.layout.shop_item, scrollViewContent, false);
 
             ImageView imageView = placeView.findViewById(R.id.imageView);
             TextView textView = placeView.findViewById(R.id.placeName);
@@ -123,6 +145,26 @@ public class Store extends AppCompatActivity implements SearchView.OnQueryTextLi
 
             boolean isFavorite = isPlaceFavorite(place.getPlaceId());
             favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
+
+            placeView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Handle the click event for the place item
+
+                    Intent intentplacedetails=new Intent(Store.this,PlaceDetails.class);
+                    intentplacedetails.putExtra("userId", userId);
+                    intentplacedetails.putExtra("placeId", place.getPlaceId());
+                    Log.d("Placeid","placeid:"+place.getPlaceId());
+                    intentplacedetails.putExtra("userLat", locationTracker.getLatitude());
+                    intentplacedetails.putExtra("userLng", locationTracker.getLongitude());
+
+
+                    startActivity(intentplacedetails);
+
+                    //Toast.makeText(Home.this, "Place Item Clicked!", Toast.LENGTH_SHORT).show();
+
+                }
+            });
 
             favoriteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -167,6 +209,9 @@ public class Store extends AppCompatActivity implements SearchView.OnQueryTextLi
         intent.putExtra("userId", userId);
         intent.putExtra("searchResults", (Serializable) searchResults); // Make sure Place implements Serializable
         intent.putExtra("searchQuery", query);
+        intent.putExtra("userLat", locationTracker.getLatitude());
+        intent.putExtra("userLng", locationTracker.getLongitude());
+
         startActivity(intent);
     }
 
@@ -188,6 +233,13 @@ public class Store extends AppCompatActivity implements SearchView.OnQueryTextLi
                 .edit()
                 .putBoolean(getFavoriteKey(placeId), isFavorite)
                 .apply();
+
+        // Show a Toast message based on the current favorite state
+        if (isFavorite) {
+            Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private String getFavoriteKey(int placeId) {
@@ -204,8 +256,8 @@ public class Store extends AppCompatActivity implements SearchView.OnQueryTextLi
                 // Permissions granted, proceed with your code
                 initialize();
             } else {
-                // Permissions denied, handle accordingly
-                // For example, you might want to inform the user and disable location-related features
+                Toast.makeText(this, "Location permission denied. Some features may be disabled.", Toast.LENGTH_SHORT).show();
+                initialize();
             }
         }
     }
