@@ -151,15 +151,15 @@ public class Store extends AppCompatActivity implements SearchView.OnQueryTextLi
                 public void onClick(View v) {
                     // Handle the click event for the place item
 
-                    Intent intentplacedetails=new Intent(Store.this,PlaceDetails.class);
-                    intentplacedetails.putExtra("userId", userId);
-                    intentplacedetails.putExtra("placeId", place.getPlaceId());
+                    Intent intentpackages=new Intent(Store.this,ViewPackages.class);
+                    intentpackages.putExtra("userId", userId);
+                    intentpackages.putExtra("placeId", place.getPlaceId());
                     Log.d("Placeid","placeid:"+place.getPlaceId());
-                    intentplacedetails.putExtra("userLat", locationTracker.getLatitude());
-                    intentplacedetails.putExtra("userLng", locationTracker.getLongitude());
+                    intentpackages.putExtra("userLat", locationTracker.getLatitude());
+                    intentpackages.putExtra("userLng", locationTracker.getLongitude());
 
 
-                    startActivity(intentplacedetails);
+                    startActivity(intentpackages);
 
                     //Toast.makeText(Home.this, "Place Item Clicked!", Toast.LENGTH_SHORT).show();
 
