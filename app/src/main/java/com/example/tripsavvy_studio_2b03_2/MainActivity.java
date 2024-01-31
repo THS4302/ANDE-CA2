@@ -71,11 +71,12 @@ public class MainActivity extends AppCompatActivity {
 
         UserDatabaseHandler udb= new UserDatabaseHandler(this);
 
-        udb.addUser(new User(1,"Ren","San","rensan02@gmail.com","abc","https://i.pinimg.com/originals/96/4f/3a/964f3a01c170d9306a7e091729f75935.jpg",0));
+        /**udb.addUser(new User(1,"Ren","San","rensan02@gmail.com","abc","https://i.pinimg.com/originals/96/4f/3a/964f3a01c170d9306a7e091729f75935.jpg",0));
 
        udb.addUser(new User(2,"test","testing","test@test.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
         udb.addUser(new User(3,"please","work","work@work.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
 
+         **/
         //udb.deleteUser("4");
         //udb.deleteUser("5");
         Log.d("Reading: ", "Reading all users..");
@@ -94,11 +95,11 @@ public class MainActivity extends AppCompatActivity {
         TravelPackageDatabaseHandler pdb = new TravelPackageDatabaseHandler(this);
 
         //paris
-        pdb.addPackage(new TravelPackage(1, "A", 1, "Package A:\n" + "\n" + "Hotel Ritz Paris\n" + "\n" + "Tickets to Louvre Museum\n" + "\n" + "An Eiffel Tower Visit\n" + "\n" + "A One Day Mont Saint-Michel Tour" + "\n", 1200.40f, "https://media.cntraveler.com/photos/61e12ae954fe6df2acc90f89/16:9/w_2560,c_limit/Bar-RitzParis-France-VincentLeroux.jpeg" ));
-        pdb.addPackage(new TravelPackage(2, "B", 1, "Package B:\n" + "\n" + "Hotel Holiday Inn Paris - Notre Dame\n" + "\n" + "Sainte-Chapelle\n" + "\n" + "Montmartre and Sacré-Cœur Basilica\n" + "\n" , 999.90f, "https://cf.bstatic.com/xdata/images/hotel/max1280x900/421458624.jpg?k=ad1909a036d4aba99db4284b2ea1eca354c71ba3099754e4cfb413a8c13f8429&o=&hp=1" ));
-        pdb.addPackage(new TravelPackage(3, "C", 1, "Package C:\n" + "\n" + "Hotel ibis Paris Gare de Lyon Ledru Rollin\n" + "\n" + "Luxembourg Gardens\n" + "\n" + "Musée Rodin\n" + "\n" , 705.90f, "https://media-cdn.tripadvisor.com/media/photo-s/04/40/ea/5e/ibis-paris-gare-de-lyon.jpg" ));
+        pdb.addPackage(new TravelPackage(1, "C", 1, "Package C:\n" + "\n" + "Hotel ibis Paris Gare de Lyon Ledru Rollin\n" + "\n" + "Luxembourg Gardens\n" + "\n" + "Musée Rodin\n" + "\n" , 705.90f, "https://media-cdn.tripadvisor.com/media/photo-s/04/40/ea/5e/ibis-paris-gare-de-lyon.jpg" ));
 
-        //venice
+        //venice, "A", 1, "Package A:\n" + "\n" + "Hotel Ritz Paris\n" + "\n" + "Tickets to Louvre Museum\n" + "\n" + "An Eiffel Tower Visit\n" + "\n" + "A One Day Mont Saint-Michel Tour" + "\n", 1200.40f, "https://media.cntraveler.com/photos/61e12ae954fe6df2acc90f89/16:9/w_2560,c_limit/Bar-RitzParis-France-VincentLeroux.jpeg" ));
+        //        pdb.addPackage(new TravelPackage(2, "B", 1, "Package B:\n" + "\n" + "Hotel Holiday Inn Paris - Notre Dame\n" + "\n" + "Sainte-Chapelle\n" + "\n" + "Montmartre and Sacré-Cœur Basilica\n" + "\n" , 999.90f, "https://cf.bstatic.com/xdata/images/hotel/max1280x900/421458624.jpg?k=ad1909a036d4aba99db4284b2ea1eca354c71ba3099754e4cfb413a8c13f8429&o=&hp=1" ));
+        //        pdb.addPackage(new TravelPackage(3
         pdb.addPackage(new TravelPackage(4, "A", 2, "Package A:\n" + "\n" + "Hotel Gritti Palace\n" + "\n" + "Tickets to Doge's Palace\n" + "\n" + "30min Grand Canal Gondola Ride\n" + "\n" + "St. Mark's Basilica" + "\n", 1030.20f, "https://cf.bstatic.com/xdata/images/hotel/max1024x768/433361948.jpg?k=93517212d5fccc6a9b4d24c5149f1d57059a7b17857c2976565e5767bc0538d1&o=&hp=1" ));
         pdb.addPackage(new TravelPackage(5, "B", 2, "Package B:\n" + "\n" + "Hotel Colombina\n" + "\n" + "Rialto Bridge\n" + "\n" + "Gallerie dell'Accademia\n" + "\n" , 769.90f, "https://i0.wp.com/majortraveler.com/wp-content/uploads/2018/04/HC1.jpg?resize=960%2C638&ssl=1" ));
         pdb.addPackage(new TravelPackage(6, "C", 2, "Package C:\n" + "\n" + "Hotel Guerrini\n" + "\n" + "Peggy Guggenheim Collection\n" + "\n" + "Traghetto Ride\n" + "\n" , 605.90f, "https://media-cdn.tripadvisor.com/media/photo-s/0a/60/e0/db/facciata-principale.jpg" ));

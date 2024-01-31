@@ -13,6 +13,8 @@ import java.util.List;
 public class TravelPackageDatabaseHandler  extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 15;
+
+
     private static final String DATABASE_NAME = "tripSavvyDB";
     private static final String TABLE_PACKAGES = "travelpackages";
 
@@ -179,6 +181,52 @@ public class TravelPackageDatabaseHandler  extends SQLiteOpenHelper {
 
         // Close the database
         db.close();
+    }
+
+    public List<TravelPackage> getPackageAByPlaceId(int placeId) {
+        return getTravelPackagesByPlaceIdAndGrade(placeId, "A");
+    }
+
+    public List<TravelPackage> getPackageBByPlaceId(int placeId) {
+        return getTravelPackagesByPlaceIdAndGrade(placeId, "B");
+    }
+
+    public List<TravelPackage> getPackageCByPlaceId(int placeId) {
+        return getTravelPackagesByPlaceIdAndGrade(placeId, "C");
+    }
+
+    private List<TravelPackage> getTravelPackagesByPlaceIdAndGrade(int placeId, String grade) {
+        List<TravelPackage> packageList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_PACKAGES, new String[]{PACKAGE_ID, GRADE, PLACE_ID, DETAILS, PRICE, PACKAGE_IMG},
+                PLACE_ID + "=? AND " + GRADE + "=?", new String[]{String.valueOf(placeId), grade},
+                null, null, null);
+
+        // Loop through the cursor to create TravelPackage objects
+        Log.e("CheckDataa", String.valueOf(placeId));
+
+        if (cursor.moveToFirst()) {
+            do {
+                TravelPackage p = new TravelPackage();
+                p.setPackageid(cursor.getInt(0));
+                p.setGrade(cursor.getString(1));
+                p.setPlaceid(cursor.getInt(2));
+                p.setDetails(cursor.getString(3));
+                p.setPrice(cursor.getFloat(4));
+                p.setPackageimg(cursor.getString(5));
+
+                // Add each package to the list
+                packageList.add(p);
+            } while (cursor.moveToNext());
+        }
+
+        // Close the cursor and database
+        cursor.close();
+        db.close();
+
+        return packageList;
     }
 
 
