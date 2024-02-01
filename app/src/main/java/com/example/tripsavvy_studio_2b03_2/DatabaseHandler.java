@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler  extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 16;
   
     private static final String DATABASE_NAME = "tripSavvyPlaceDB";
     private static final String TABLE_PLACES = "places";
@@ -109,6 +109,7 @@ public class DatabaseHandler  extends SQLiteOpenHelper {
             place.setLongitude(cursor.getDouble(3)); // Use getDouble for longitude
             place.setImageUrl(cursor.getString(4));
             place.setPlacecat(cursor.getString(5));
+            place.setCountry(cursor.getString(6));
             place.setDescription(cursor.getString(7));
             place.setRating(cursor.getFloat(8));
             // Add other fields as needed

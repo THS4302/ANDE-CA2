@@ -92,11 +92,18 @@ public class Home extends AppCompatActivity implements SearchView.OnQueryTextLis
                     case R.id.action_profile:
                         Intent intentp = new Intent(Home.this, Profile.class);
                         intentp.putExtra("userId", userId);
+                        intentp.putExtra("userLat", locationTracker.getLatitude());
+                        intentp.putExtra("userLng", locationTracker.getLongitude());
                         startActivity(intentp);
                         return true;
 
                     case R.id.action_store:
-                        startActivity(new Intent(Home.this, Store.class));
+
+                        Intent intents = new Intent(Home.this, Store.class);
+                        intents.putExtra("userId", userId);
+                        intents.putExtra("userLat", locationTracker.getLatitude());
+                        intents.putExtra("userLng", locationTracker.getLongitude());
+                        startActivity(intents);
                         return true;
 
                     default:

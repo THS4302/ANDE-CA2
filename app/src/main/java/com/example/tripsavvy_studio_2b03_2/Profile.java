@@ -41,6 +41,8 @@ public class Profile extends AppCompatActivity {
         UserDatabaseHandler udb = new UserDatabaseHandler(Profile.this);
         Intent intent = getIntent();
         int userId = intent.getIntExtra("userId", -1);
+        double userLat = intent.getDoubleExtra("userLat", 0.0);
+        double userLng = intent.getDoubleExtra("userLng", 0.0);
 
         User user = udb.getUser(String.valueOf(userId));
         if (user != null) {
@@ -121,14 +123,17 @@ BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_home:
-                        Intent intenth = new Intent(Profile.this, Favorites.class);
+                        Intent intenth = new Intent(Profile.this, Home.class);
                         intenth.putExtra("", userId);
+                        startActivity(intenth);
 
                         return true;
 
                     case R.id.action_favourites:
                         Intent intentf = new Intent(Profile.this, Favorites.class);
                         intentf.putExtra("userId", userId);
+                        intentf.putExtra("userLat", userLat);
+                        intentf.putExtra("userLng", userLng);
 
                         startActivity(intentf);
                         return true;
@@ -138,11 +143,16 @@ BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
                         return true;
 
                     case R.id.action_store:
+
                         Intent intents = new Intent(Profile.this, Store.class);
                         intents.putExtra("userId", userId);
+                        intents.putExtra("userLat", userLat);
+                        intents.putExtra("userLng", userLng);
                         startActivity(intents);
-
                         return true;
+
+
+
 
                     default:
                         return false;
@@ -151,7 +161,7 @@ BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
         });
 
         // Set the default selected item programmatically
-        bottomNavigationView.setSelectedItemId(R.id.action_home);
+        bottomNavigationView.setSelectedItemId(R.id.action_profile);
 
     }
 
