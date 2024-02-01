@@ -11,6 +11,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.DatePicker;
+
+
+
 import com.example.tripsavvy_studio_2b03_2.TravelPackageDatabaseHandler;
 
 import androidx.annotation.NonNull;
@@ -31,6 +37,8 @@ public class ViewPackages extends AppCompatActivity {
     private List<TravelPackage> travelPackageA;
     private List<TravelPackage> travelPackageB;
     private List<TravelPackage> travelPackageC;
+
+    private String selectedPackage;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +80,7 @@ public class ViewPackages extends AppCompatActivity {
         boolean isFavorite = isPlaceFavorite(placeId);
         favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
 
+
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +92,52 @@ public class ViewPackages extends AppCompatActivity {
                 favoriteButton.setImageResource(isFavorite ? R.drawable.fav_buttonpressed : R.drawable.imgbutton_fav);
             }
         });
+
+        Button checkoutButton = findViewById(R.id.checkoutButton);
+        EditText quantityEditText = findViewById(R.id.quantity);
+
+        checkoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                selectedPackage = getSelectedPackage();
+
+                // Check if a package is selected
+                if (selectedPackage != null) {
+                    // Get the selected date from the DatePicker
+                    DatePicker datePicker = findViewById(R.id.datePicker);
+                    int year = datePicker.getYear();
+                    int month = datePicker.getMonth() + 1;
+                    int dayOfMonth = datePicker.getDayOfMonth();
+
+                    // Create a formatted date string
+                    String selectedDate = year + "-" + month + "-" + dayOfMonth;
+
+                    Intent intent = new Intent(ViewPackages.this, Checkout.class);
+
+                    // Put the selected values into the Intent
+                    intent.putExtra("selectedPackage", selectedPackage);
+                    intent.putExtra("placeId", placeId);
+                    intent.putExtra("date", selectedDate);
+
+
+                    EditText quantityEditText = findViewById(R.id.quantity);
+                    String quantityString = quantityEditText.getText().toString();
+                    if (!quantityString.isEmpty()) {
+                        int quantity = Integer.parseInt(quantityString);
+                        intent.putExtra("quantity", quantity);
+                    } else {
+                        Toast.makeText(ViewPackages.this, "Please enter a quantity", Toast.LENGTH_SHORT).show();
+                        return; // Don't proceed if quantity is empty
+                    }
+
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(ViewPackages.this, "Please select a package", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
 
         if (place != null) {
@@ -105,7 +160,6 @@ public class ViewPackages extends AppCompatActivity {
             double distance = locationTracker.calculateDistance(locationTracker.getLatitude(), locationTracker.getLongitude(), placeLat, placeLng);
 
             namedist.setText(place.getName() + " ,📍" + distance);
-
 
 
 
@@ -239,8 +293,6 @@ public class ViewPackages extends AppCompatActivity {
 
 
 
-
-
 //            TextView placeDescription = findViewById(R.id.placeDescription);
 //            placeDescription.setText(place.getDescription());
 //            Log.d("descp","descp:"+place.getDescription());
@@ -315,6 +367,29 @@ public class ViewPackages extends AppCompatActivity {
             Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private String getSelectedPackage() {
+        // Retrieve the selected package value from your Spinner or wherever it is stored
+        Spinner packageSpinner = findViewById(R.id.packageSpinner);
+        return packageSpinner.getSelectedItem().toString();
+    }
+
+    private void launchCheckoutActivity() {
+        // Create an Intent to start CheckoutActivity
+        Intent intent = new Intent(ViewPackages.this, Checkout.class);
+
+        // Pass data to CheckoutActivity using Intent extras
+        intent.putExtra("selectedPackage", selectedPackage);  // You need to set the value of selectedPackage
+
+        // Add more data if needed
+        intent.putExtra("userId", userId);
+        intent.putExtra("placeId", placeId);
+
+        // Start the CheckoutActivity
+        startActivity(intent);
+    }
+
+
 
     private String getFavoriteKey(int placeId) {
         // Generate a unique key for storing the favorite state of a place
