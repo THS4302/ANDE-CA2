@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TripSavvy_Studio_2B03_2</string>
+
+    <string-array name="package_options">
+        <item>Package A</item>
+        <item>Package B</item>
+        <item>Package C</item>
+    </string-array>
 </resources>

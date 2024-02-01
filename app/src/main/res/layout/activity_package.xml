@@ -56,11 +56,11 @@
         android:layout_height="0dp"
         android:background="@drawable/border_background"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="1.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/placedNamedist"
-    app:layout_constraintVertical_bias="0.753">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/placedNamedist"
+        app:layout_constraintVertical_bias="0.753">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,8 +72,10 @@
             <!-- Available Packages -->
             <ImageView
                 android:id="@+id/placeImage"
-                android:layout_width="match_parent"
+                android:layout_width="370dp"
                 android:layout_height="165dp"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"
                 app:layout_constraintBottom_toTopOf="@+id/textView22"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,8 +87,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Available Packages:"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
+                android:textColor="#000000"
+                android:paddingLeft="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/package1Image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.09"
@@ -96,9 +100,11 @@
 
             <!-- First Package Card -->
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="8dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -112,27 +118,46 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/package1test" />
 
-                    <TextView
-                        android:id="@+id/package1Price"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:textSize="18sp" />
+                        android:orientation="horizontal"
+                        android:gravity="end">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/package1Price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#000000"
+                            android:paddingRight="8dp"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/package1Details"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textColor="#000000"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <!-- Second Package Card -->
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="8dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -146,12 +171,28 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/package1test" />
 
-                    <TextView
-                        android:id="@+id/package2Price"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:textSize="18sp" />
+                        android:orientation="horizontal"
+                        android:gravity="end">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/package2Price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#000000"
+                            android:paddingRight="8dp"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/package2Details"
@@ -159,15 +200,18 @@
                         android:layout_height="wrap_content"
                         android:padding="16dp"
                         android:text="Package 2 details"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textColor="#000000"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <!-- Third Package Card -->
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
+                android:layout_margin="8dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -181,12 +225,28 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/package1test" />
 
-                    <TextView
-                        android:id="@+id/package3Price"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:textSize="18sp" />
+                        android:orientation="horizontal"
+                        android:gravity="end">
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:id="@+id/package3Price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="#000000"
+                            android:paddingRight="8dp"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/package3Details"
@@ -194,21 +254,76 @@
                         android:layout_height="wrap_content"
                         android:padding="16dp"
                         android:text="Package 3 details"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textColor="#000000"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <Spinner
+                android:id="@+id/packageSpinner"
+                android:layout_width="177dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/border_background"
+                android:entries="@array/package_options"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/package3Details" />
+
+            <EditText
+                android:id="@+id/quantityEditText"
+                android:layout_width="137dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/border_background"
+                android:hint="Quantity"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/packageSpinner" />
+
+            <DatePicker
+                android:id="@+id/datePicker"
+                android:layout_width="390dp"
+                android:layout_height="68dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/quantityEditText" />
 
             <Button
                 android:id="@+id/checkoutButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Proceed To Checkout"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
                 android:backgroundTint="#01ACC3"
+                android:text="Proceed To Checkout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/package3Details"
-                app:layout_constraintVertical_bias="0.16" />
+                app:layout_constraintTop_toBottomOf="@+id/datePicker" />
+
+            <!--            <Button-->
+            <!--                android:id="@+id/checkoutButton"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="Proceed To Checkout"-->
+            <!--                android:backgroundTint="#01ACC3"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/package3Details"-->
+            <!--                app:layout_constraintVertical_bias="0.16" />-->
 
         </LinearLayout>
     </ScrollView>
