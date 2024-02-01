@@ -1,5 +1,5 @@
 package com.example.tripsavvy_studio_2b03_2;
-
+//Thet Htar San p2235077
 import android.Manifest;
 import android.app.Service;
 import android.content.Context;
@@ -88,8 +88,7 @@ public class LocationTracker extends Service implements LocationListener {
 
                             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
 
-                            // If any permission above not allowed by user, this condition will
-                            // execute every time, else your else part will work
+
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -1,5 +1,5 @@
 package com.example.tripsavvy_studio_2b03_2;
-
+//Thet Htar San p2235077
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -105,7 +105,7 @@ public class Profile extends AppCompatActivity {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Call the logout method or perform logout actions here
+                // Call the logout method
                 logout();
             }
         });
@@ -113,7 +113,7 @@ public class Profile extends AppCompatActivity {
         deleteAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Call the logout method or perform logout actions here
+                // Call the delete method
                 deleteAccount();
             }
         });
@@ -180,8 +180,8 @@ BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
 
-            // Handle the selected image URI (e.g., save it to the database or display it)
-            // Example using Picasso:
+            // Handle the selected image URI
+
             ImageButton profileImageButton = findViewById(R.id.profileImage);
             Picasso.get().load(imageUri).into(profileImageButton);
             UserDatabaseHandler udb = new UserDatabaseHandler(Profile.this);
@@ -315,7 +315,7 @@ BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
         intentdelete.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intentdelete);
         finish();
-        // Add code to navigate to the login or home screen
+
     }
 
     public void onPointsClick(View view) {
@@ -340,7 +340,7 @@ BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
         // Add a negative button (Cancel button) and its click listener
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Handle Cancel button click (you can perform any action here)
+                // Handle Cancel button click
                 dialog.dismiss(); // Dismiss the dialog
             }
         });
@@ -362,7 +362,7 @@ BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
         // Add a positive button (OK button) and its click listener
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Handle OK button click (you can perform any action here)
+                // Handle OK button click
                 dialog.dismiss(); // Dismiss the dialog
             }
         });

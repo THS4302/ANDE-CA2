@@ -1,5 +1,5 @@
 package com.example.tripsavvy_studio_2b03_2;
-
+//Thet Htar San p2235077
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -16,7 +16,7 @@ import java.util.List;
 
 public class FilterOptions extends AppCompatActivity {
 
-    private List<String> selectedCategories;  // Add this variable to store the selected category
+    private List<String> selectedCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,7 @@ public class FilterOptions extends AppCompatActivity {
         Button countryside = findViewById(R.id.countryside);
         Button next = findViewById(R.id.nextbutton);
         Button back = findViewById(R.id.backbutton);
-
-        // Assuming you have some logic to determine the selected category
+  // Assuming you have some logic to determine the selected category
 
 
         hilly.setOnClickListener(new View.OnClickListener() {
