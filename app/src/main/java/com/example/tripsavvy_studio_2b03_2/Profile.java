@@ -117,7 +117,20 @@ public class Profile extends AppCompatActivity {
                 deleteAccount();
             }
         });
-BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
+
+        Button bookingHistoryButton = findViewById(R.id.bookinghistory);
+
+        bookingHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Profile.this, BookingHistoryActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+            }
+        });
+
+
+        BottomNavigationView bottomNavigationView=findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

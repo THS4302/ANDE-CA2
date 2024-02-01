@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Inserting Contacts
         // Log.d("Insert Data : ", "Inserting ..");
+
+        /**
        db.addPlace(new Place(1,"Paris", 48.85661400,2.35222190,"https://images.adsttc.com/media/images/5d44/14fa/284d/d1fd/3a00/003d/large_jpg/eiffel-tower-in-paris-151-medium.jpg?1564742900","Attraction","France","\n" +
          "Welcome to Paris, the City of Light, where history, culture, and romance converge. Iconic landmarks like the Eiffel Tower and Louvre Museum await, offering breathtaking views and artistic treasures. Stroll down the Champs-Élysées to the Arc de Triomphe, explore the bohemian charm of Montmartre, and cruise the Seine River for a romantic perspective. Indulge in Parisian cuisine, from pastries in charming cafes to Michelin-starred restaurants. Every cobblestone street tells" +
          "a story, inviting you to immerse yourself in a city that has inspired dreamers for centuries." +
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
          "\n" +
          "For those seeking cultural experiences, nearby attractions like the Sanctuary of Truth showcase traditional Thai architecture and craftsmanship. Pattaya seamlessly blends the excitement of a beach resort with the charm of Thai hospitality, making it a versatile destination for travelers seeking both relaxation and entertainment.",0));
 
+        **/
+
+
 
      db.addPlace(new Place(6,"Mount Fuji",5.363602,138.726379,"https://res.cloudinary.com/jnto/image/upload/w_750,h_503,fl_lossy,f_auto/v1531981666/fujiguide/SG010_6",
               "Hilly","Japan","Welcome to Mount Fuji, Japan's iconic symbol and the country's highest peak. Towering majestically at 3,776 meters (12,389 feet), Mount Fuji is a sacred and awe-inspiring stratovolcano that has captured the imagination of locals and visitors alike for centuries. With its perfectly symmetrical cone and snow-capped summit, Mount Fuji is not just a geological wonder but a cultural and spiritual centerpiece, drawing artists, poets, and pilgrims to its slopes. Whether you're an adventure enthusiast tackling its trails or simply reveling in its breathtaking views, Mount Fuji promises an unforgettable experience that blends natural beauty with cultural significance.",0));
@@ -75,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
               "\n" +
               "Whether you're indulging in local cuisine, exploring historic ruins, or simply basking in the serenity of this seaside haven, Oia invites you to experience the allure of Santorini in every enchanting moment.",0));
 
+
         Log.d("Reading: ", "Reading all contacts..");
         List<Place> places = db.getAllPlaces();
 
@@ -86,10 +92,12 @@ public class MainActivity extends AppCompatActivity {
 
         UserDatabaseHandler udb= new UserDatabaseHandler(this);
 
-        udb.addUser(new User(1,"Ren","San","rensan02@gmail.com","abc","https://i.pinimg.com/originals/96/4f/3a/964f3a01c170d9306a7e091729f75935.jpg",0));
+//        udb.addUser(new User(1,"Ren","San","rensan02@gmail.com","abc","https://i.pinimg.com/originals/96/4f/3a/964f3a01c170d9306a7e091729f75935.jpg",0));
+//
+//       udb.addUser(new User(2,"test","testing","test@test.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
+//        udb.addUser(new User(3,"please","work","work@work.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
 
-       udb.addUser(new User(2,"test","testing","test@test.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
-        udb.addUser(new User(3,"please","work","work@work.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
+        udb.addUser(new User(1,"Ren","San","rensan02@gmail.com","abc","https://i.pinimg.com/originals/96/4f/3a/964f3a01c170d9306a7e091729f75935.jpg",0));
 
 
         //udb.deleteUser("4");
@@ -106,9 +114,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         //farah
         TravelPackageDatabaseHandler pdb = new TravelPackageDatabaseHandler(this);
 
+
+        /**
         //paris
         pdb.addPackage(new TravelPackage(1, "C", 1, "Package C:\n" + "\n" + "Hotel ibis Paris Gare de Lyon Ledru Rollin\n" + "\n" + "Luxembourg Gardens\n" + "\n" + "Musée Rodin\n" + "\n" , 705.90f, "https://media-cdn.tripadvisor.com/media/photo-s/04/40/ea/5e/ibis-paris-gare-de-lyon.jpg" ));
         pdb.addPackage(new TravelPackage(2, "B", 1, "Package B:\n" + "\n" + "Hotel Holiday Inn Paris - Notre Dame\n" + "\n" + "Sainte-Chapelle\n" + "\n" + "Montmartre and Sacré-Cœur Basilica\n" + "\n" , 999.90f, "https://cf.bstatic.com/xdata/images/hotel/max1280x900/421458624.jpg?k=ad1909a036d4aba99db4284b2ea1eca354c71ba3099754e4cfb413a8c13f8429&o=&hp=1" ));
@@ -133,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
         pdb.addPackage(new TravelPackage(13, "A", 5, "Package A:\n" + "\n" + "Hotel Amari Pattaya\n\n" + "\n" + "Coral Island (Koh Larn) Tour\n" + "\n" + "Sanctuary of Truth\n" + "\n" + "Walking Street" + "\n", 530.40f, "https://www.hotelscombined.com.sg/himg/8b/b5/b1/revato-10084-12270613-157718.jpg" ));
         pdb.addPackage(new TravelPackage(14, "B", 5, "Package B:\n" + "\n" + "Nova Platinum Hotel\n" + "\n" + "Art in Paradise\n" + "\n" + "Tiffany's Show\n" + "\n" , 470.10f, "https://cf.bstatic.com/xdata/images/hotel/max1024x768/82927325.jpg?k=71666e517a7bf5c6f9c1f12c130ebcd80d59a046202e943da03c9d4399084a0c&o=&hp=1" ));
         pdb.addPackage(new TravelPackage(15, "C", 5, "Package C:\n" + "\n" + "Hotel Sawasdee Sea View\n" + "\n" + "Mini Siam\n" + "\n" + "Pattaya Viewpoint (Khao Pattaya Viewpoint)\n" + "\n" , 325.90f, "https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/10012127-d2ba2c3246dc41f1906c5e6a41b20be1.jpeg?tr=q-40,c-at_max,w-740,h-500&_src=imagekit" ));
+**/
+
 
         List<TravelPackage> packages = pdb.getAllPackages();
 
@@ -146,6 +159,52 @@ public class MainActivity extends AppCompatActivity {
 
             // Writing TravelPackages to log
             Log.d("TravelPackage: ", log);
+        }
+
+
+        //card
+        CardDatabaseHandler cdb = new CardDatabaseHandler (this);
+
+
+        /**
+        cdb.addCard(new Card(1, "1234 5678 9012 2345", "12/26", "432"));
+        cdb.addCard(new Card(2,"1111 1111 1111 1111", "11/11", "111"));
+        cdb.addCard(new Card(3, "0000 0000 0000 0000", "00/00", "123"));
+         **/
+
+
+//        cdb.deleteCard(4);
+//        cdb.deleteCard(5);
+//        cdb.deleteCard(6);
+
+        List<Card> cards = cdb.getAllCards();
+
+        for (Card card : cards) {
+            String log = "Card ID: " + card.getCardId() +
+                    " ,Card Number: " + card.getCardNumber() +
+                    " ,Expiration Date: " + card.getExpirationDate() +
+                    " ,CVV: " + card.getCvv();
+
+            // Writing cards to log
+            Log.d("Card: ", log);
+        }
+
+        BookingDatabaseHandler bdb = new BookingDatabaseHandler(this);
+
+// Uncomment the line below if you want to add a new booking (just for testing purposes)
+// bdb.addBooking(new Booking(1, 2, "A", 50.0f, "2024-02-01", 2));
+
+// Retrieve bookings by user ID
+        List<Booking> bookings = bdb.getBookingsByUserId(4);
+
+// Log the size of the retrieved booking list
+        Log.d("YourTag", "Number of bookings: " + bookings.size());
+
+// Log details of each booking (for debugging purposes)
+        for (Booking booking : bookings) {
+            Log.d("YourTag", "Booking ID: " + booking.getBookingId());
+            Log.d("YourTag", "Place ID: " + booking.getPlaceId());
+            // Add more details if needed
         }
 
     }

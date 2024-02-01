@@ -12,7 +12,8 @@ import java.util.List;
 
 public class UserDatabaseHandler  extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 16;
+    private static final int DATABASE_VERSION = 18;
+
     private static final String DATABASE_NAME = "tripSavvyUserDB";
     private static final String TABLE_USERS = "users";
     private static final String USER_ID = "id";
