@@ -100,7 +100,9 @@ public class Store extends AppCompatActivity implements SearchView.OnQueryTextLi
                         return true;
 
                     case R.id.action_home:
-                        startActivity(new Intent(Store.this, Store.class));
+                        Intent intenth = new Intent(Store.this, Home.class);
+                        intenth.putExtra("userId", userId);
+                        startActivity(intenth);
                         return true;
 
                     default:
