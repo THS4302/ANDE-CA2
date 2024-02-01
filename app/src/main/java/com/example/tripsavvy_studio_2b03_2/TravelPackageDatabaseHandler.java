@@ -229,6 +229,25 @@ public class TravelPackageDatabaseHandler  extends SQLiteOpenHelper {
         return packageList;
     }
 
+    public float getPriceByGradeAndPlaceId(String grade, int placeId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_PACKAGES, new String[]{PRICE},
+                GRADE + "=? AND " + PLACE_ID + "=?", new String[]{grade, String.valueOf(placeId)},
+                null, null, null);
+
+        float price = 0;
+        if (cursor.moveToFirst()) {
+            price = cursor.getFloat(0);
+        }
+
+        cursor.close();
+        db.close();
+
+        return price;
+    }
+
+
 
 
     // Getting contacts Count
