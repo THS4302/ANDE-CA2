@@ -1,5 +1,5 @@
 package com.example.tripsavvy_studio_2b03_2;
-
+//Thet Htar San p2235077
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -41,6 +41,8 @@ public class Profile extends AppCompatActivity {
         UserDatabaseHandler udb = new UserDatabaseHandler(Profile.this);
         Intent intent = getIntent();
         int userId = intent.getIntExtra("userId", -1);
+        double userLat = intent.getDoubleExtra("userLat", 0.0);
+        double userLng = intent.getDoubleExtra("userLng", 0.0);
 
         User user = udb.getUser(String.valueOf(userId));
         if (user != null) {
@@ -103,7 +105,7 @@ public class Profile extends AppCompatActivity {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Call the logout method or perform logout actions here
+                // Call the logout method
                 logout();
             }
         });
@@ -111,7 +113,7 @@ public class Profile extends AppCompatActivity {
         deleteAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Call the logout method or perform logout actions here
+                // Call the delete method
                 deleteAccount();
             }
         });
@@ -134,14 +136,17 @@ public class Profile extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_home:
-                        Intent intenth = new Intent(Profile.this, Favorites.class);
+                        Intent intenth = new Intent(Profile.this, Home.class);
                         intenth.putExtra("", userId);
+                        startActivity(intenth);
 
                         return true;
 
                     case R.id.action_favourites:
                         Intent intentf = new Intent(Profile.this, Favorites.class);
                         intentf.putExtra("userId", userId);
+                        intentf.putExtra("userLat", userLat);
+                        intentf.putExtra("userLng", userLng);
 
                         startActivity(intentf);
                         return true;
@@ -151,11 +156,16 @@ public class Profile extends AppCompatActivity {
                         return true;
 
                     case R.id.action_store:
+
                         Intent intents = new Intent(Profile.this, Store.class);
                         intents.putExtra("userId", userId);
+                        intents.putExtra("userLat", userLat);
+                        intents.putExtra("userLng", userLng);
                         startActivity(intents);
-
                         return true;
+
+
+
 
                     default:
                         return false;
@@ -164,7 +174,7 @@ public class Profile extends AppCompatActivity {
         });
 
         // Set the default selected item programmatically
-        bottomNavigationView.setSelectedItemId(R.id.action_home);
+        bottomNavigationView.setSelectedItemId(R.id.action_profile);
 
     }
 
@@ -183,8 +193,8 @@ public class Profile extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             Uri imageUri = data.getData();
 
-            // Handle the selected image URI (e.g., save it to the database or display it)
-            // Example using Picasso:
+            // Handle the selected image URI
+
             ImageButton profileImageButton = findViewById(R.id.profileImage);
             Picasso.get().load(imageUri).into(profileImageButton);
             UserDatabaseHandler udb = new UserDatabaseHandler(Profile.this);
@@ -318,7 +328,7 @@ public class Profile extends AppCompatActivity {
         intentdelete.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intentdelete);
         finish();
-        // Add code to navigate to the login or home screen
+
     }
 
     public void onPointsClick(View view) {
@@ -343,7 +353,7 @@ public class Profile extends AppCompatActivity {
         // Add a negative button (Cancel button) and its click listener
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Handle Cancel button click (you can perform any action here)
+                // Handle Cancel button click
                 dialog.dismiss(); // Dismiss the dialog
             }
         });
@@ -365,7 +375,7 @@ public class Profile extends AppCompatActivity {
         // Add a positive button (OK button) and its click listener
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // Handle OK button click (you can perform any action here)
+                // Handle OK button click
                 dialog.dismiss(); // Dismiss the dialog
             }
         });

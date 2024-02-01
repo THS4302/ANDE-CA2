@@ -1,5 +1,5 @@
 package com.example.tripsavvy_studio_2b03_2;
-
+//Thet Htar San 2235077
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,6 +13,7 @@ import java.util.List;
 public class UserDatabaseHandler  extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 18;
+
     private static final String DATABASE_NAME = "tripSavvyUserDB";
     private static final String TABLE_USERS = "users";
     private static final String USER_ID = "id";
@@ -81,7 +82,7 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
     }
 
 
-    // code to add the new contact
+    // code to add the new user
     void addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -105,7 +106,7 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
 
 
 
-    // code to get the single contact
+    // code to get the single user
     User getUser(String userid) {
         if (userid == null) {
             return null;  // or handle the null case accordingly
@@ -141,7 +142,7 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
 
 
 
-    // code to get all contacts in a list view
+
     // code to get all users in a list view
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
@@ -249,16 +250,7 @@ public class UserDatabaseHandler  extends SQLiteOpenHelper {
     }
 
 
-    // Getting contacts Count
-    /**  public int getContactsCount() {
-     String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
-     SQLiteDatabase db = this.getReadableDatabase();
-     Cursor cursor = db.rawQuery(countQuery, null);
-     cursor.close();
 
-     // return count
-     return cursor.getCount();
-     } **/
 }
 
 

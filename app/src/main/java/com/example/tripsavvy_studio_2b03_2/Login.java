@@ -1,5 +1,5 @@
 package com.example.tripsavvy_studio_2b03_2;
-
+//Thet Htar San p2235077
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -34,7 +34,7 @@ public class Login extends AppCompatActivity {
 
                 if (userId != -1) {
                     // User authenticated, userId contains the user's ID
-                    // You can use this userId for fetching user profile data
+
                     Toast.makeText(Login.this, "Login successful! UserID: " + userId, Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Login.this, Home.class);
                     intent.putExtra("userId", userId);

@@ -12,7 +12,9 @@ import java.util.List;
 
 public class TravelPackageDatabaseHandler  extends SQLiteOpenHelper {
 
+
     private static final int DATABASE_VERSION = 18;
+
 
 
     private static final String DATABASE_NAME = "tripSavvyDB";

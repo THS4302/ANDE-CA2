@@ -1,5 +1,5 @@
 package com.example.tripsavvy_studio_2b03_2;
-
+//Thet Htar San p2235077
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -68,23 +68,38 @@ public class SearchResults extends AppCompatActivity {
                     case R.id.action_home:
                         Intent intenth = new Intent(SearchResults.this, Home.class);
                         intenth.putExtra("userId", userId);
+
+
+
                         startActivity(intenth);
                         return true;
 
                     case R.id.action_favourites:
                         Intent intentf = new Intent(SearchResults.this, Favorites.class);
                         intentf.putExtra("userId", userId);
+
+                        intentf.putExtra("userLat", locationTracker.getLatitude());
+                        intentf.putExtra("userLng", locationTracker.getLongitude());
+
+
                         startActivity(intentf);
                         return true;
 
                     case R.id.action_profile:
                         Intent intentp = new Intent(SearchResults.this, Profile.class);
                         intentp.putExtra("userId", userId);
+                        intentp.putExtra("userLat", locationTracker.getLatitude());
+                        intentp.putExtra("userLng", locationTracker.getLongitude());
                         startActivity(intentp);
                         return true;
 
                     case R.id.action_store:
-                        startActivity(new Intent(SearchResults.this, Store.class));
+                        Intent intents=new Intent(SearchResults.this, Store.class);
+                        intents.putExtra("userId", userId);
+                        intents.putExtra("userLat", locationTracker.getLatitude());
+                        intents.putExtra("userLng", locationTracker.getLongitude());
+                        startActivity(intents);
+
                         return true;
 
                     default:

@@ -1,5 +1,5 @@
 package com.example.tripsavvy_studio_2b03_2;
-
+//Thet Htar San p2235077
 
 import java.io.Serializable;
 
@@ -33,7 +33,7 @@ public class Place implements Serializable {
 
         this.description=dsp;
         this.rating=rate;
-        // Add other fields as needed
+
     }
 
     // Add getter methods

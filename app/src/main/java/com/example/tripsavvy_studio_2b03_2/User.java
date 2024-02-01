@@ -1,6 +1,6 @@
 package com.example.tripsavvy_studio_2b03_2;
 
-
+//Thet Htar San 2235077
 public class User {
     private int userId;
     private String firstname;
@@ -22,7 +22,7 @@ public class User {
       this.password=password;
       this.profileUrl=profileUrl;
       this.points=points;
-        // Add other fields as needed
+
     }
 
     // Add getter methods

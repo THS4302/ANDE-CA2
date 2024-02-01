@@ -59,13 +59,33 @@ public class MainActivity extends AppCompatActivity {
          "Explore the vibrant street markets, indulge in delectable Thai cuisine at beachfront restaurants, and witness the lively energy that permeates the area. Pattaya's nightlife is renowned, with a variety of bars, clubs, and entertainment options that cater to every taste.\n" +
          "\n" +
          "For those seeking cultural experiences, nearby attractions like the Sanctuary of Truth showcase traditional Thai architecture and craftsmanship. Pattaya seamlessly blends the excitement of a beach resort with the charm of Thai hospitality, making it a versatile destination for travelers seeking both relaxation and entertainment.",0));
+
         **/
+
+
+
+     db.addPlace(new Place(6,"Mount Fuji",5.363602,138.726379,"https://res.cloudinary.com/jnto/image/upload/w_750,h_503,fl_lossy,f_auto/v1531981666/fujiguide/SG010_6",
+              "Hilly","Japan","Welcome to Mount Fuji, Japan's iconic symbol and the country's highest peak. Towering majestically at 3,776 meters (12,389 feet), Mount Fuji is a sacred and awe-inspiring stratovolcano that has captured the imagination of locals and visitors alike for centuries. With its perfectly symmetrical cone and snow-capped summit, Mount Fuji is not just a geological wonder but a cultural and spiritual centerpiece, drawing artists, poets, and pilgrims to its slopes. Whether you're an adventure enthusiast tackling its trails or simply reveling in its breathtaking views, Mount Fuji promises an unforgettable experience that blends natural beauty with cultural significance.",0));
+      db.addPlace(new Place(7,"Lanai",20.8310422,-156.9302976,"https://a.cdn-hotels.com/gdcs/production137/d1274/208267dd-505a-40b6-985e-128570c0c85c.jpg","Island","Hawaii(USA)","Welcome to Lanai, a tranquil tropical oasis in the heart of Hawaii. This small yet enchanting island is known for its pristine beaches, rugged landscapes, and laid-back atmosphere. With its luxurious resorts, like the Four Seasons Resort Lanai, Lanai offers an exclusive escape surrounded by natural beauty.\n" +
+              "\n" +
+              "Explore the Garden of the Gods, a surreal landscape of unique rock formations, or relax on the white sands of Hulopoe Beach. Lanai City, with its charming boutiques and local eateries, provides a glimpse into the island's culture.\n" +
+              "\n" +
+              "Whether you're seeking adventure through off-road excursions or simply aiming to unwind in a secluded paradise, Lanai beckons with its unspoiled beauty and welcoming spirit. Immerse yourself in the serenity of Lanai, where the aloha spirit thrives in every corner of this Hawaiian gem.",0));
+
+      db.addPlace(new Place(8,"OÍA",36.46260000,25.37637000,"https://s27363.pcdn.co/wp-content/uploads/2019/04/Sunset-in-Oia.jpg.optimal.jpg","Countryside","Greece","Welcome to Oia, a breathtaking jewel nestled on the cliffs of Santorini, Greece. Renowned for its mesmerizing sunsets, white-washed buildings, and azure-domed churches, Oia is a postcard-perfect destination that captures the essence of Cycladic beauty.\n" +
+              "\n" +
+              "Wander through narrow cobblestone streets adorned with bougainvillea, and discover charming boutiques, art galleries, and traditional tavernas. The iconic blue-domed churches, set against the backdrop of the Aegean Sea, create an enchanting scene that is both romantic and picturesque.\n" +
+              "\n" +
+              "As the sun dips below the horizon, Oia comes alive with the vibrant hues of twilight. The sunset views from the caldera are legendary, drawing visitors from around the world to witness the magical spectacle.\n" +
+              "\n" +
+              "Whether you're indulging in local cuisine, exploring historic ruins, or simply basking in the serenity of this seaside haven, Oia invites you to experience the allure of Santorini in every enchanting moment.",0));
+
 
         Log.d("Reading: ", "Reading all contacts..");
         List<Place> places = db.getAllPlaces();
 
         for (Place p : places) {
-            String log = "Id: " + p.getPlaceId() + " ,Name: " + p.getName()+ "Cat"+p.getPlacecat()+"Descp"+p.getDescription();
+            String log = "Id: " + p.getPlaceId() + " ,Name: " + p.getName()+ "Cat"+p.getPlacecat()+"Descp"+p.getCountry();
             // Writing Contacts to log
             Log.d("Name: ", log);
         }
@@ -76,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
 //
 //       udb.addUser(new User(2,"test","testing","test@test.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
 //        udb.addUser(new User(3,"please","work","work@work.com","abc","https://i.pinimg.com/originals/e5/1e/ad/e51ead901ccb9d7d9b346306fe085b82.jpg",0));
+
+        udb.addUser(new User(1,"Ren","San","rensan02@gmail.com","abc","https://i.pinimg.com/originals/96/4f/3a/964f3a01c170d9306a7e091729f75935.jpg",0));
 
 
         //udb.deleteUser("4");

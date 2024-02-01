@@ -1,5 +1,5 @@
 package com.example.tripsavvy_studio_2b03_2;
-
+//Thet Htar San p2235077
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -59,15 +59,22 @@ public class Favorites extends AppCompatActivity {
                     case R.id.action_profile:
                         Intent intentp = new Intent(Favorites.this, Profile.class);
                         intentp.putExtra("userId", userId);
+                        intentp.putExtra("userLat", locationTracker.getLatitude());
+                        intentp.putExtra("userLng", locationTracker.getLongitude());
                         startActivity(intentp);
-                        finish();
+
                         return true;
 
                     case R.id.action_store:
-                        startActivity(new Intent(Favorites.this, Store.class));
+                        Intent intents=new Intent(Favorites.this, Store.class);
+                        intents.putExtra("userId", userId);
+                        intents.putExtra("userLat", locationTracker.getLatitude());
+                        intents.putExtra("userLng", locationTracker.getLongitude());
+                        startActivity(intents);
+
                         return true;
 
-                    // Add cases for other bottom navigation items if needed
+
 
                     default:
                         return false;

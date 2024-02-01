@@ -1,5 +1,5 @@
 package com.example.tripsavvy_studio_2b03_2;
-
+//Thet Htar San p2235077
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -76,7 +76,8 @@ public class PlaceDetails extends AppCompatActivity {
             double placeLng = place.getLongitude();
             double distance = locationTracker.calculateDistance(locationTracker.getLatitude(), locationTracker.getLongitude(), placeLat, placeLng);
 
-            namedist.setText(place.getName() + " ,📍" + distance);
+            namedist.setText(place.getName() + " , "+place.getCountry()+" ,📍" + distance+" km");
+            Log.d("country","country"+place.getCountry());
             TextView placeDescription = findViewById(R.id.placeDescription);
             placeDescription.setText(place.getDescription());
             Log.d("descp","descp:"+place.getDescription());

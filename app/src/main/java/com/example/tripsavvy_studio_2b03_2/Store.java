@@ -40,6 +40,8 @@ public class Store extends AppCompatActivity implements SearchView.OnQueryTextLi
         setContentView(R.layout.activity_shop);
         Intent intent = getIntent();
         userId = intent.getIntExtra("userId", -1);
+        double userLat = intent.getDoubleExtra("userLat", 0.0);
+        double userLng = intent.getDoubleExtra("userLng", 0.0);
         SearchView searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(this);
         // Initialize scrollViewContent
@@ -92,11 +94,15 @@ public class Store extends AppCompatActivity implements SearchView.OnQueryTextLi
                     case R.id.action_profile:
                         Intent intentp = new Intent(Store.this, Profile.class);
                         intentp.putExtra("userId", userId);
+                        intentp.putExtra("userLat", locationTracker.getLatitude());
+                        intentp.putExtra("userLng", locationTracker.getLongitude());
                         startActivity(intentp);
                         return true;
 
                     case R.id.action_home:
-                        startActivity(new Intent(Store.this, Store.class));
+                        Intent intenth = new Intent(Store.this, Home.class);
+                        intenth.putExtra("userId", userId);
+                        startActivity(intenth);
                         return true;
 
                     default:
