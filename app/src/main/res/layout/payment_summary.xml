@@ -1,84 +1,166 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <!-- Existing RelativeLayout -->
+    <!-- Header View -->
+
     <RelativeLayout
-        android:id="@+id/relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_background"
-        android:padding="16dp"
-        android:clickable="true"
-        android:onClick="onRelativeLayoutClick">
+        android:id="@+id/headerView"
+        android:layout_width="412dp"
+        android:layout_height="130dp"
+        android:background="@drawable/gradient_background">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentStart="true"
-            android:scaleType="centerCrop" />
-
+        <!-- Centered TextView -->
         <TextView
-            android:id="@+id/placeName"
-            android:layout_width="164dp"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/imageView"
-            android:layout_marginStart="16dp"
-            android:textSize="16sp" />
-
-        <!-- TextView for Package Selected -->
-        <TextView
-            android:id="@+id/packageSelected"
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/placeName"
-            android:layout_toEndOf="@+id/imageView"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
-            android:text="Package Selected:"
-            android:textSize="14sp" />
-
-        <!-- TextView for Date Selected -->
-        <TextView
-            android:id="@+id/dateSelected"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/packageSelected"
-            android:layout_toEndOf="@+id/imageView"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
-            android:text="Date Selected:"
-            android:textSize="14sp" />
-
-        <!-- TextView for Number of Packages -->
-        <TextView
-            android:id="@+id/numberOfPackages"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="8dp"
-            android:text="Number of Packages:"
-            android:textSize="14sp" />
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/wendy_one"
+            android:text="TripSavvy"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
 
     </RelativeLayout>
 
-    <!-- New TextView outside of RelativeLayout -->
-    <TextView
-        android:id="@+id/totalPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="total price"
-        android:textSize="16sp"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="16dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/headerView">
 
-</LinearLayout>
+        <!-- Existing RelativeLayout -->
+        <RelativeLayout
+            android:id="@+id/relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_background"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentStart="true"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/placeName"
+                android:layout_width="164dp"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/imageView"
+                android:layout_marginStart="16dp"
+                android:textSize="16sp" />
+
+            <!-- TextView for Package Selected -->
+            <TextView
+                android:id="@+id/packageSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/placeName"
+                android:layout_toEndOf="@+id/imageView"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:text="Package Selected:"
+                android:textSize="14sp" />
+
+            <!-- TextView for Date Selected -->
+            <TextView
+                android:id="@+id/dateSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/packageSelected"
+                android:layout_toEndOf="@+id/imageView"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="16dp"
+                android:text="Date Selected:"
+                android:textSize="14sp" />
+
+            <!-- TextView for Number of Packages -->
+            <TextView
+                android:id="@+id/numberOfPackages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="8dp"
+                android:text="Number of Packages:"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <!-- New TextView outside of RelativeLayout -->
+        <TextView
+            android:id="@+id/totalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Price"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"/>
+
+        <!-- Input fields for card details -->
+        <EditText
+            android:id="@+id/cardNumberEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Card Number"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+
+        <EditText
+            android:id="@+id/expirationDateEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Expiration Date"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+
+        <EditText
+            android:id="@+id/cvvEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="CVV"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+
+        <!-- Button for Payment -->
+        <Button
+            android:id="@+id/payButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pay"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:onClick="onPayButtonClick" />
+
+    </LinearLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/bottom_nav_background"
+        app:itemIconTint="@color/bottom_nav_item_color"
+        app:itemTextColor="@color/bottom_nav_item_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:menu="@menu/bottom_navigation_menu" />
+
+</RelativeLayout>
+
