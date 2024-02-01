@@ -44,6 +44,16 @@ public class BookingHistoryActivity extends AppCompatActivity {
         // Retrieve booking history based on userId from the database
         BookingDatabaseHandler bookingDb = new BookingDatabaseHandler(this);
         List<Booking> bookingList = bookingDb.getBookingsByUserId(userId);
+        for (Booking booking : bookingList) {
+            String log = "BookingId: " + booking.getBookingId() +
+                    ", UserId: " + booking.getUserId() +
+                    ", PlaceId: " + booking.getPlaceId() +
+                    // ... add other relevant fields
+                    ", Check-in Date: " + booking.getDate() +
+                    ", Check-out Date: " + booking.getPackageGrade();
+
+            Log.d("BookingList", log);
+        }
 
         // Log the size of the bookingList to verify data
         Log.d("BookingHistoryActivity", "Booking List Size: " + bookingList.size());
