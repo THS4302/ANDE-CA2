@@ -2,6 +2,7 @@ package com.example.tripsavvy_studio_2b03_2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,7 +40,7 @@ public class Checkout extends AppCompatActivity {
         Intent intent = getIntent();
         userId = intent.getIntExtra("userId", -1);
         String selectedPackage = intent.getStringExtra("selectedPackage");
-        int placeId = intent.getIntExtra("placeId", -1);
+        placeId = intent.getIntExtra("placeId", -1);
         String date = intent.getStringExtra("date");
         int quantity = intent.getIntExtra("quantity", 0);
 
@@ -109,6 +110,7 @@ public class Checkout extends AppCompatActivity {
             newBooking.setPrice(totalPrice);
             newBooking.setDate(date);
             newBooking.setNumberOfTickets(quantity);
+
 
             // Add the booking to the database
             BookingDatabaseHandler bookingDb = new BookingDatabaseHandler(this);
