@@ -50,6 +50,7 @@ public class Checkout extends AppCompatActivity {
 
         TravelPackageDatabaseHandler pdb = new TravelPackageDatabaseHandler(this);
         String packageGrade = getPackageGrade(selectedPackage);
+        Log.d("packagelog","packageGrade"+packageGrade);
         float packagePrice = pdb.getPriceByGradeAndPlaceId(packageGrade, placeId);
 
         // Calculate the total price
@@ -88,6 +89,13 @@ public class Checkout extends AppCompatActivity {
     }
 
     public void onPayButtonClick(View view) {
+        Intent intent = getIntent();
+        userId = intent.getIntExtra("userId", -1);
+        String selectedPackage = intent.getStringExtra("selectedPackage");
+        int placeId = intent.getIntExtra("placeId", -1);
+        String date = intent.getStringExtra("date");
+        int quantity = intent.getIntExtra("quantity", 0);
+        String packageGrade = getPackageGrade(selectedPackage);
         // Collect card details from EditText fields
         String cardNumber = ((EditText) findViewById(R.id.cardNumberEditText)).getText().toString();
         String expirationDate = ((EditText) findViewById(R.id.expirationDateEditText)).getText().toString();
@@ -98,6 +106,7 @@ public class Checkout extends AppCompatActivity {
         Card storedCard = cardDb.getCardByDetails(cardNumber, expirationDate, cvv);
 
         if (storedCard != null) {
+
             // Card details match, payment approved
             // You may proceed with other actions or navigate to a success screen
             Toast.makeText(this, "Payment Approved", Toast.LENGTH_SHORT).show();
@@ -111,6 +120,7 @@ public class Checkout extends AppCompatActivity {
             newBooking.setDate(date);
             newBooking.setNumberOfTickets(quantity);
 
+            Log.d("new booking","newbooking"+newBooking.getPackageGrade()+newBooking.getDate());
 
             // Add the booking to the database
             BookingDatabaseHandler bookingDb = new BookingDatabaseHandler(this);
@@ -119,9 +129,9 @@ public class Checkout extends AppCompatActivity {
             // Display a message or perform additional actions
             Toast.makeText(this, "Booking created. Booking ID: " + bookingId, Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(this, BookingHistoryActivity.class);
-            intent.putExtra("userId", userId);
-            startActivity(intent);
+            Intent intentc = new Intent(this, BookingHistoryActivity.class);
+            intentc.putExtra("userId", userId);
+            startActivity(intentc);
             finish();
         } else {
             // Card details do not match, payment declined

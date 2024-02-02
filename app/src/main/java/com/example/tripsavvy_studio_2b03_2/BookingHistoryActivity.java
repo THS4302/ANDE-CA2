@@ -8,6 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Button;
+import android.view.View;
+import android.widget.Button;
+import android.view.View;
+
+
+
+
 
 
 
@@ -36,6 +44,16 @@ public class BookingHistoryActivity extends AppCompatActivity {
 
         // Call loadBookingHistory to retrieve and display booking data
         loadBookingHistory();
+
+        // Back Button
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Finish the current activity and go back to the previous one
+                finish();
+            }
+        });
     }
 
 
@@ -44,6 +62,16 @@ public class BookingHistoryActivity extends AppCompatActivity {
         // Retrieve booking history based on userId from the database
         BookingDatabaseHandler bookingDb = new BookingDatabaseHandler(this);
         List<Booking> bookingList = bookingDb.getBookingsByUserId(userId);
+        for (Booking booking : bookingList) {
+            String log = "BookingId: " + booking.getBookingId() +
+                    ", UserId: " + booking.getUserId() +
+                    ", PlaceId: " + booking.getPlaceId() +
+                    // ... add other relevant fields
+                    ", Check-in Date: " + booking.getDate() +
+                    ", Check-out Date: " + booking.getPackageGrade();
+
+            Log.d("BookingList", log);
+        }
 
         // Log the size of the bookingList to verify data
         Log.d("BookingHistoryActivity", "Booking List Size: " + bookingList.size());
@@ -51,7 +79,6 @@ public class BookingHistoryActivity extends AppCompatActivity {
         // Update the adapter with the booking data
         bookingAdapter.setBookings(bookingList);
     }
-
 
 
 }
