@@ -47,10 +47,10 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         if (place != null) {
             // Bind data to the views in RelativeLayout using Picasso
             Picasso.get().load(place.getImageUrl()).into(holder.imageView);
-            holder.placeNameTextView.setText("Place Name: " + place.getName());
-            holder.packageSelectedTextView.setText("Package Selected: " + booking.getPackageGrade());
+            holder.placeNameTextView.setText("" + place.getName());
+            holder.packageSelectedTextView.setText("Package: " + booking.getPackageGrade());
             holder.dateSelectedTextView.setText("Date Selected: " + booking.getDate());
-            holder.numberOfPackagesTextView.setText("Number of Packages: " + booking.getNumberOfTickets());
+            holder.numberOfPackagesTextView.setText("Quantity: " + booking.getNumberOfTickets());
 
         } else {
             // Handle the case where Place is null (optional, set default values)

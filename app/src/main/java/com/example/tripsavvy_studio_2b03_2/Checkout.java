@@ -40,7 +40,7 @@ public class Checkout extends AppCompatActivity {
         Intent intent = getIntent();
         userId = intent.getIntExtra("userId", -1);
         String selectedPackage = intent.getStringExtra("selectedPackage");
-        int placeId = intent.getIntExtra("placeId", -1);
+        placeId = intent.getIntExtra("placeId", -1);
         String date = intent.getStringExtra("date");
         int quantity = intent.getIntExtra("quantity", 0);
 

@@ -116,7 +116,8 @@ public class ViewPackages extends AppCompatActivity {
                     Intent intent = new Intent(ViewPackages.this, Checkout.class);
 
                     // Put the selected values into the Intent
-                    intent.putExtra("userId",userId);
+                    intent.putExtra("userId", userId);
+
                     intent.putExtra("selectedPackage", selectedPackage);
                     intent.putExtra("placeId", placeId);
                     intent.putExtra("date", selectedDate);

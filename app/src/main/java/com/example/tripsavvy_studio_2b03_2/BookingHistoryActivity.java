@@ -8,6 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Button;
+import android.view.View;
+import android.widget.Button;
+import android.view.View;
+
+
+
+
 
 
 
@@ -36,6 +44,16 @@ public class BookingHistoryActivity extends AppCompatActivity {
 
         // Call loadBookingHistory to retrieve and display booking data
         loadBookingHistory();
+
+        // Back Button
+        Button backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Finish the current activity and go back to the previous one
+                finish();
+            }
+        });
     }
 
 
@@ -61,7 +79,6 @@ public class BookingHistoryActivity extends AppCompatActivity {
         // Update the adapter with the booking data
         bookingAdapter.setBookings(bookingList);
     }
-
 
 
 }
